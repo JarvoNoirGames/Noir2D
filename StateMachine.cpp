@@ -26,6 +26,11 @@ namespace Noir2D
         return _states.empty() ? nullptr : _states.top().get();
     }
 
+    bool StateMachine::IsEmpty() const
+    {
+        return _states.empty();
+    }
+
     void StateMachine::Update(float deltaTime) {
         if (!_states.empty()) _states.top()->Update(deltaTime);
     }

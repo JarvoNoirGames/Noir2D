@@ -16,3 +16,4 @@
 #define RESUME_BUTTON "Resources/res/Resume Button.png"
 #define HOME_BUTTON "Resources/res/Home Button.png"
 #define RETRY_BUTTON "Resources/res/Retry Button.png"
+#define DEFAULT_FONT "Resources/fonts/arial.ttf"

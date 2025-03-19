@@ -15,7 +15,7 @@ namespace Noir2D
         void PopState();
         void ChangeState(std::unique_ptr<State> state);
         State* GetActiveState() const;
-
+        bool IsEmpty() const;
         void Update(float deltaTime);
         void Render(float deltaTime);
 
