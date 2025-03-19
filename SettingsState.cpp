@@ -57,6 +57,9 @@ namespace Noir2D
     }
 
     void SettingsState::Cleanup() {
-        // Cleanup any allocated resources if needed
+        _font = sf::Font();
+        //these will be replaced by GUI buttons soon
+        _fullscreenButton = sf::Text();
+        _backButton = sf::Text();
     }
 }

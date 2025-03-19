@@ -52,5 +52,8 @@ namespace Noir2D
     void MainMenuState::Cleanup() 
     {
         _font = sf::Font();
+        //these will be replaced by GUI buttons soon
+        _playButton = sf::Text();
+        _exitButton = sf::Text();
     }
 }

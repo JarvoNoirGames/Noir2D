@@ -42,6 +42,6 @@ namespace Noir2D
     }
 
     void LoadingState::Cleanup() {
-        // Cleanup if necessary
+        _font = sf::Font();
     }
 }

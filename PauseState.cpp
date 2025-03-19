@@ -25,5 +25,8 @@ namespace Noir2D
         _engine.GetWindow().draw(_pauseText);
     }
 
-    void PauseState::Cleanup() {}
+    void PauseState::Cleanup()
+    {
+        _font = sf::Font();
+    }
 }

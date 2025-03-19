@@ -26,5 +26,8 @@ namespace Noir2D
         _engine.GetWindow().draw(_gameOverText);
     }
 
-    void GameOverState::Cleanup() {}
+    void GameOverState::Cleanup() 
+    {
+        _font = sf::Font();
+    }
 }

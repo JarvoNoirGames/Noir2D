@@ -40,6 +40,6 @@ namespace Noir2D
 
     void GameState::Cleanup() 
     {
-
+        _font = sf::Font();
     }
 }
