@@ -2,29 +2,30 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <unordered_map>
+#include <string>
 
 namespace Noir2D
 {
 	class AssetManager
 	{
 	public:
+		static AssetManager& GetInstance();  // Singleton
 		AssetManager() {}
 		~AssetManager() {}
 
-		void LoadTexture(std::string name, std::string fileName);
-		sf::Texture& GetTexture(std::string name);
+		void LoadTexture(const std::string& name, const std::string& fileName);
+		const sf::Texture& GetTexture(const std::string& name) const;
 
-		void LoadFont(std::string name, std::string fileName);
-		sf::Font& GetFont(std::string name);
+		void LoadFont(const std::string& name, const std::string& fileName);
+		const sf::Font& GetFont(const std::string& name) const;
 
-		void LoadSound(std::string name, std::string fileName);
-		sf::SoundBuffer& GetSound(std::string name);
+		void LoadSound(const std::string& name, const std::string& fileName);
+		const sf::SoundBuffer& GetSound(const std::string& name) const;
 
 	private:
-
-		std::map<std::string, sf::Texture> _textures;
-		std::map<std::string, sf::Font> _fonts;
-		std::map<std::string, sf::SoundBuffer> _sounds;
-
+		std::unordered_map<std::string, sf::Texture> _textures;
+		std::unordered_map<std::string, sf::Font> _fonts;
+		std::unordered_map<std::string, sf::SoundBuffer> _sounds;
 	};
 }

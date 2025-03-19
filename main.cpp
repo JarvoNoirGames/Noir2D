@@ -9,5 +9,6 @@ int main()
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_HIDE);
 	Noir2D::Engine engine(SCREEN_WIDTH, SCREEN_HEIGHT, "NOIR2D");
+    engine.Run();
 	return EXIT_SUCCESS;
 }

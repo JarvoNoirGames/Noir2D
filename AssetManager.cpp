@@ -1,49 +1,46 @@
 #include "AssetManager.h"
+#include <iostream>
 
 namespace Noir2D
 {
-	//textures
-	void AssetManager::LoadTexture(std::string name, std::string fileName)
-	{
-		sf::Texture tex;
-		if (tex.loadFromFile(fileName))
-		{
-			this->_textures[name] = tex;
-		}
+	AssetManager& AssetManager::GetInstance() {
+		static AssetManager instance;
+		return instance;
 	}
 
-	sf::Texture& AssetManager::GetTexture(std::string name)
-	{
-		return this->_textures.at(name);
-	}
+    void AssetManager::LoadTexture(const std::string& name, const std::string& filename) {
+        if (_textures.find(name) != _textures.end()) return;  // Prevent reloading
+        if (!_textures[name].loadFromFile(filename)) {
+            std::cerr << "Error loading texture: " << filename << std::endl;
+            _textures.erase(name);
+        }
+    }
 
-	//fonts
-	void AssetManager::LoadFont(std::string name, std::string fileName)
-	{
-		sf::Font font;
-		if (font.loadFromFile(fileName))
-		{
-			this->_fonts[name] = font;
-		}
-	}
+    void AssetManager::LoadFont(const std::string& name, const std::string& filename) {
+        if (_fonts.find(name) != _fonts.end()) return;
+        if (!_fonts[name].loadFromFile(filename)) {
+            std::cerr << "Error loading font: " << filename << std::endl;
+            _fonts.erase(name);
+        }
+    }
 
-	sf::Font& AssetManager::GetFont(std::string name)
-	{
-		return this->_fonts.at(name);
-	}
+    void AssetManager::LoadSound(const std::string& name, const std::string& filename) {
+        if (_sounds.find(name) != _sounds.end()) return;
+        if (!_sounds[name].loadFromFile(filename)) {
+            std::cerr << "Error loading sound: " << filename << std::endl;
+            _sounds.erase(name);
+        }
+    }
 
-	//sounds
-	void AssetManager::LoadSound(std::string name, std::string fileName)
-	{
-		sf::SoundBuffer sound;
-		if (sound.loadFromFile(fileName))
-		{
-			this->_sounds[name] = sound;
-		}
-	}
+    const sf::Texture& AssetManager::GetTexture(const std::string& name) const {
+        return _textures.at(name);
+    }
 
-	sf::SoundBuffer& AssetManager::GetSound(std::string name)
-	{
-		return this->_sounds.at(name);
-	}
+    const sf::Font& AssetManager::GetFont(const std::string& name) const {
+        return _fonts.at(name);
+    }
+
+    const sf::SoundBuffer& AssetManager::GetSound(const std::string& name) const {
+        return _sounds.at(name);
+    }
 }
