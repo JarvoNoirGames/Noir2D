@@ -43,4 +43,10 @@ namespace Noir2D
     const sf::SoundBuffer& AssetManager::GetSound(const std::string& name) const {
         return _sounds.at(name);
     }
+    void AssetManager::Cleanup()
+    {
+        _textures.clear();
+        _fonts.clear();
+        _sounds.clear();
+    }
 }
