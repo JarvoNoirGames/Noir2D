@@ -16,21 +16,3 @@
 #define RESUME_BUTTON "Resources/res/Resume Button.png"
 #define HOME_BUTTON "Resources/res/Home Button.png"
 #define RETRY_BUTTON "Resources/res/Retry Button.png"
-
-#define X_PIECE_FILEPATH "Resources/res/X.png"
-#define O_PIECE_FILEPATH "Resources/res/O.png"
-#define X_PIECE_WINNING_FILEPATH "Resources/res/X Win.png"
-#define O_PIECE_WINNING_FILEPATH "Resources/res/O Win.png"
-
-#define X_PIECE 8
-#define O_PIECE 0
-#define PLAYER_PIECE X_PIECE
-#define AI_PIECE O_PIECE
-
-#define STATE_PLAYING 98
-#define STATE_PAUSED 97
-#define STATE_WON 96
-#define STATE_LOSE 95
-#define STATE_PLACING_PIECE 94
-#define STATE_AI_PLAYING 93
-#define STATE_DRAW 92

@@ -2,54 +2,35 @@
 
 namespace Noir2D
 {
-	void StateMachine::AddState(StateRef newState, bool isReplacing)
-	{
-		this->isAdding = true;
-		this->isReplacing = isReplacing;
-		this->newState = std::move(newState);
-	}
+    void StateMachine::PushState(std::unique_ptr<State> state) {
+        _states.push(std::move(state));
+        _states.top()->Init();
+    }
 
-	void StateMachine::RemoveState()
-	{
-		this->isRemoving = true;
-	}
+    void StateMachine::PopState() {
+        if (!_states.empty()) {
+            _states.top()->Cleanup();
+            _states.pop();
+        }
+    }
 
-	void StateMachine::ProcessStateChanges()
-	{
-		if (this->isRemoving && !this->states.empty())
-		{
-			this->states.pop();
+    void StateMachine::ChangeState(std::unique_ptr<State> state) {
+        while (!_states.empty()) {
+            _states.top()->Cleanup();
+            _states.pop();
+        }
+        PushState(std::move(state));
+    }
 
-			if (!this->states.empty())
-			{
-				this->states.top()->Resume();
-			}
+    State* StateMachine::GetActiveState() const {
+        return _states.empty() ? nullptr : _states.top().get();
+    }
 
-			this->isRemoving = false;
-		}
+    void StateMachine::Update(float deltaTime) {
+        if (!_states.empty()) _states.top()->Update(deltaTime);
+    }
 
-		if (this->isAdding)
-		{
-			if (!this->states.empty())
-			{
-				if (this->isReplacing)
-				{
-					this->states.pop();
-				}
-				else
-				{
-					this->states.top()->Pause();
-				}
-			}
-
-			this->states.push(std::move(this->newState));
-			this->states.top()->Init();
-			this->isAdding = false;
-		}
-	}
-
-	StateRef& StateMachine::GetActiveState()
-	{
-		return this->states.top();
-	}
+    void StateMachine::Render(float deltaTime) {
+        if (!_states.empty()) _states.top()->Render(deltaTime);
+    }
 }

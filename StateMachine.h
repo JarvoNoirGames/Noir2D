@@ -10,21 +10,16 @@ namespace Noir2D
 	class StateMachine
 	{
 	public:
-		StateMachine() {}
-		~StateMachine() {}
+    public:
+        void PushState(std::unique_ptr<State> state);
+        void PopState();
+        void ChangeState(std::unique_ptr<State> state);
+        State* GetActiveState() const;
 
-		void AddState(StateRef newState, bool isReplacing = true);
-		void RemoveState();
-		void ProcessStateChanges();
+        void Update(float deltaTime);
+        void Render(float deltaTime);
 
-		StateRef& GetActiveState();
-
-	private:
-		std::stack<StateRef> states;
-		StateRef newState;
-
-		bool isRemoving;
-		bool isAdding;
-		bool isReplacing;
+    private:
+        std::stack<std::unique_ptr<State>> _states;
 	};
 }

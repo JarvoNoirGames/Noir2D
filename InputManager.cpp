@@ -2,23 +2,81 @@
 
 namespace Noir2D
 {
-	bool InputManager::isSpriteClicked(sf::Sprite object, sf::Mouse::Button button, sf::RenderWindow& window)
-	{
-		if (sf::Mouse::isButtonPressed(button))
-		{
-			sf::IntRect buttonRect(object.getPosition().x, object.getPosition().y, object.getGlobalBounds().width, object.getGlobalBounds().height);
-			if (buttonRect.contains(sf::Mouse::getPosition(window)))
-			{
-				return true;
-			}
-		}
+    // Singleton Instance
+    InputManager& InputManager::GetInstance() {
+        static InputManager instance;
+        return instance;
+    }
 
-		return false;
+    // --- Keyboard Handling ---
+    bool InputManager::IsKeyPressed(sf::Keyboard::Key key) const {
+        auto it = keyStates.find(key);
+        return it != keyStates.end() && it->second;
+    }
 
-	}
+    bool InputManager::WasKeyReleased(sf::Keyboard::Key key) const {
+        auto it = keyReleasedStates.find(key);
+        return it != keyReleasedStates.end() && it->second;
+    }
 
-	sf::Vector2i InputManager::GetMousePosition(sf::RenderWindow& window)
-	{
-		return sf::Mouse::getPosition(window);
-	}
+    // --- Mouse Handling ---
+    bool InputManager::IsMouseButtonPressed(sf::Mouse::Button button) const {
+        auto it = mouseStates.find(button);
+        return it != mouseStates.end() && it->second;
+    }
+
+    bool InputManager::WasMouseButtonReleased(sf::Mouse::Button button) const {
+        auto it = mouseReleasedStates.find(button);
+        return it != mouseReleasedStates.end() && it->second;
+    }
+
+    sf::Vector2i InputManager::GetMousePosition(const sf::RenderWindow& window) const {
+        return sf::Mouse::getPosition(window);
+    }
+
+    // --- Event Processing ---
+    void InputManager::ProcessEvent(const sf::Event& event) {
+        if (event.type == sf::Event::KeyPressed) {
+            keyStates[event.key.code] = true;
+            keyReleasedStates[event.key.code] = false;
+
+            if (keyPressCallbacks.count(event.key.code)) {
+                keyPressCallbacks[event.key.code]();
+            }
+        }
+
+        if (event.type == sf::Event::KeyReleased) {
+            keyStates[event.key.code] = false;
+            keyReleasedStates[event.key.code] = true;
+
+            if (keyReleaseCallbacks.count(event.key.code)) {
+                keyReleaseCallbacks[event.key.code]();
+            }
+        }
+
+        if (event.type == sf::Event::MouseButtonPressed) {
+            mouseStates[event.mouseButton.button] = true;
+            mouseReleasedStates[event.mouseButton.button] = false;
+        }
+
+        if (event.type == sf::Event::MouseButtonReleased) {
+            mouseStates[event.mouseButton.button] = false;
+            mouseReleasedStates[event.mouseButton.button] = true;
+        }
+    }
+
+    // --- Frame Update (Reset Released States) ---
+    void InputManager::Update() {
+        keyReleasedStates.clear();
+        mouseReleasedStates.clear();
+    }
+
+    // --- Key Binding ---
+    void InputManager::BindKeyPress(sf::Keyboard::Key key, std::function<void()> callback) {
+        keyPressCallbacks[key] = std::move(callback);
+    }
+
+    void InputManager::BindKeyRelease(sf::Keyboard::Key key, std::function<void()> callback) {
+        keyReleaseCallbacks[key] = std::move(callback);
+    }
 }
