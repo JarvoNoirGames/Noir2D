@@ -21,6 +21,8 @@ namespace Noir2D
             Update(dt);
             Render(dt);
         }
+        _stateMachine.Cleanup();
+        AssetManager::GetInstance().Cleanup();
     }
 
     sf::RenderWindow& Engine::GetWindow()

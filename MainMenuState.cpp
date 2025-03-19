@@ -51,6 +51,6 @@ namespace Noir2D
 
     void MainMenuState::Cleanup() 
     {
-
+        _font = sf::Font();
     }
 }

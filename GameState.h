@@ -16,5 +16,7 @@ namespace Noir2D
 
     private:
         Engine& _engine;
+        sf::Text _title;
+        sf::Font _font;
 	};
 }

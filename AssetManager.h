@@ -23,6 +23,7 @@ namespace Noir2D
 		void LoadSound(const std::string& name, const std::string& fileName);
 		const sf::SoundBuffer& GetSound(const std::string& name) const;
 
+		void Cleanup();
 	private:
 		std::unordered_map<std::string, sf::Texture> _textures;
 		std::unordered_map<std::string, sf::Font> _fonts;

@@ -9,7 +9,6 @@ namespace Noir2D
 
 	class StateMachine
 	{
-	public:
     public:
         void PushState(std::unique_ptr<State> state);
         void PopState();
@@ -18,7 +17,7 @@ namespace Noir2D
         bool IsEmpty() const;
         void Update(float deltaTime);
         void Render(float deltaTime);
-
+        void Cleanup();
     private:
         std::stack<std::unique_ptr<State>> _states;
 	};

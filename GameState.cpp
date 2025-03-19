@@ -8,18 +8,25 @@ namespace Noir2D
 
     void GameState::Init() 
     {
+        _font = AssetManager::GetInstance().GetFont("default");
 
+        _title.setFont(_font);
+        _title.setString("Game State");
+        _title.setCharacterSize(50);
+        _title.setPosition(300, 100);
     }
 
     void GameState::HandleInput() {
         InputManager& input = InputManager::GetInstance();
-        if (input.IsKeyPressed(sf::Keyboard::Escape)) {
+        if (input.IsKeyPressed(sf::Keyboard::Escape)) 
+        {
             _engine.GetStateMachine().PushState(std::make_unique<PauseState>(_engine));
         }
 
-        // Example button handling inside `GameState`'s `HandleInput` method:
         if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::S))
+        {
             _engine.GetStateMachine().PushState(std::make_unique<SettingsState>(_engine));
+        }
     }
 
     void GameState::Update(float deltaTime) {
@@ -27,7 +34,8 @@ namespace Noir2D
     }
 
     void GameState::Render(float deltaTime) {
-
+        sf::RenderWindow& window = _engine.GetWindow();
+        window.draw(_title);
     }
 
     void GameState::Cleanup() 
