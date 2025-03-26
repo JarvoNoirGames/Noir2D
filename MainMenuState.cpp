@@ -14,15 +14,6 @@ namespace Noir2D
         _title.setCharacterSize(50);
         _title.setPosition(300, 100);
 
-        /*_playButton.setFont(_font);
-        _playButton.setString("Play");
-        _playButton.setCharacterSize(30);
-        _playButton.setPosition(350, 250);
-
-        _exitButton.setFont(_font);
-        _exitButton.setString("Exit");
-        _exitButton.setCharacterSize(30);
-        _exitButton.setPosition(350, 350);*/
         auto startButton = std::make_shared<GUIButton>(
             sf::Vector2f(400, 200), sf::Vector2f(200, 50),_font, "Start Game",
             [this]() {sf::Vector2f(400, 200), _engine.RequestStateChange(std::make_unique<GameState>(_engine)); } // Use make_unique

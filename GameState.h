@@ -1,6 +1,8 @@
 #pragma once
 #include "State.hpp"
 #include "Engine.h"
+#include "GUI.h"
+#include "GUIButton.h"
 
 namespace Noir2D
 {
@@ -19,5 +21,6 @@ namespace Noir2D
         Engine& _engine;
         sf::Text _title;
         sf::Font _font;
+        GUI _gui;
 	};
 }
