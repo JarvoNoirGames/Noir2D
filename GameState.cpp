@@ -14,6 +14,7 @@ namespace Noir2D
         _title.setString("Game State");
         _title.setCharacterSize(50);
         _title.setPosition(300, 100);
+
         auto quitButton = std::make_shared<GUIButton>(
             sf::Vector2f(400, 300), sf::Vector2f(200, 50), _font, "Quit",
             [this]() {sf::Vector2f(400, 300), _engine.RequestQuit(); }

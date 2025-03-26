@@ -16,6 +16,8 @@ namespace Noir2D
 		StateMachine& GetStateMachine();
 		void RequestStateChange(std::unique_ptr<State> newState);
 		void RequestQuit();
+		void RequestStatePush(std::unique_ptr<State> newState);
+		void RequestStatePop();
 	private:
 		sf::RenderWindow _window;
 		StateMachine _stateMachine;
@@ -29,5 +31,6 @@ namespace Noir2D
 		// Flags for deferred actions
 		std::unique_ptr<State> _pendingState;
 		bool _quitRequested = false;
+		std::stack<std::unique_ptr<State>> _stateStack;
 	};
 }

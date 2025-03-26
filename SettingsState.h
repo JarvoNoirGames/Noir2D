@@ -1,6 +1,7 @@
 #pragma once
 #include "State.hpp"
 #include "Engine.h"
+#include "GUI.h"
 
 namespace Noir2D
 {
@@ -13,6 +14,8 @@ namespace Noir2D
         void Update(float dt) override;
         void Render(float dt) override;
         void Cleanup() override;
+        void ToggleFullscreen(bool toggle);
+        void ReturnToMainMenu();
 
     private:
         Engine& _engine;
@@ -20,7 +23,7 @@ namespace Noir2D
         sf::Text _title; 
         sf::Text _fullscreenButton; 
         sf::Text _backButton;
-
-        bool _fullscreen;
+        GUI _gui;
+        bool _fullscreen = false;
     };
 }

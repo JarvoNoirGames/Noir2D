@@ -1,5 +1,6 @@
 #include "MainMenuState.h"
 #include "GameState.h"
+#include "SettingsState.h"
 #include <iostream>
 namespace Noir2D
 {
@@ -24,6 +25,11 @@ namespace Noir2D
             [this]() {sf::Vector2f(400, 300), _engine.RequestQuit(); }
         );
 
+        auto settingsButton = std::make_shared<GUIButton>(
+            sf::Vector2f(400, 400), sf::Vector2f(200, 50), _font, "Settings",
+            [this]() {sf::Vector2f(400, 400), _engine.RequestStateChange(std::make_unique<SettingsState>(_engine)); } // Use make_unique
+        );
+
         // Dropdown options for screen resolutions
         std::vector<std::string> resolutions = { "800x600", "1280x720", "1920x1080", "2560x1440" };
 
@@ -40,6 +46,7 @@ namespace Noir2D
         //_gui.AddElement(_dropdown);
         _gui.AddElement(startButton);
         _gui.AddElement(quitButton);
+        _gui.AddElement(settingsButton);
 	}
 
     void MainMenuState::HandleInput()

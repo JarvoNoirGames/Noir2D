@@ -79,4 +79,20 @@ namespace Noir2D
         if (_stateMachine.GetActiveState()) _stateMachine.GetActiveState()->Render(deltaTime);
         _window.display();
     }
+
+    void Engine::RequestStatePush(std::unique_ptr<State> newState) {
+        //if (!_stateStack.empty()) {
+        //    _stateStack.top()->Pause(); // Optional: Pause current state
+        //}
+        _stateStack.push(std::move(newState));
+    }
+
+    void Engine::RequestStatePop() {
+        if (!_stateStack.empty()) {
+            _stateStack.pop(); // Remove top state
+        }
+        //if (!_stateStack.empty()) {
+        //    _stateStack.top()->Resume(); // Optional: Resume previous state
+        //}
+    }
 }
