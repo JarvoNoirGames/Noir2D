@@ -35,10 +35,20 @@ namespace Noir2D
         return _stateMachine;
     }
 
+    void Engine::RequestStateChange(std::unique_ptr<State> newState)
+    {
+        _pendingState = std::move(newState);
+    }
+
+    void Engine::RequestQuit()
+    {
+        _quitRequested = true;
+    }
+
     void Engine::ProcessEvents() {
         sf::Event event;
         while (_window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if ((event.type == sf::Event::Closed) || (_quitRequested))
             {
                 _window.close();
             }
@@ -47,6 +57,15 @@ namespace Noir2D
         // Forward input handling to the current state
         if (!_stateMachine.IsEmpty()) {
             _stateMachine.GetActiveState()->HandleInput();
+        }
+        // Forward events to the current state
+        if (!_stateMachine.IsEmpty()) {
+            _stateMachine.GetActiveState()->HandleEvent(event);
+        }
+        // Process pending actions
+        if (_pendingState) {
+            _stateMachine.ChangeState(std::move(_pendingState));
+            _pendingState.reset();
         }
     }
 

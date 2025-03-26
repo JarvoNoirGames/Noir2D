@@ -25,6 +25,10 @@ namespace Noir2D
         _backButton.setPosition(350, 350);
     }
 
+    void SettingsState::HandleEvent(const sf::Event& event)
+    {
+    }
+
     void SettingsState::HandleInput() {
         InputManager& input = InputManager::GetInstance();
 

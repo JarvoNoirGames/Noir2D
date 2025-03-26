@@ -10,6 +10,7 @@ namespace Noir2D
 	public:
 		SplashScreenState(Engine& engine);
 		void Init() override;
+		void HandleEvent(const sf::Event& event) override;
 		void HandleInput() override;
 		void Update(float deltaTime) override;
 		void Render(float deltaTime) override;

@@ -16,6 +16,10 @@ namespace Noir2D
         _title.setPosition(300, 100);
     }
 
+    void GameState::HandleEvent(const sf::Event& event)
+    {
+    }
+
     void GameState::HandleInput() {
         InputManager& input = InputManager::GetInstance();
         if (input.IsKeyPressed(sf::Keyboard::Escape)) 

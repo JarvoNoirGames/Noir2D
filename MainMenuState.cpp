@@ -14,7 +14,7 @@ namespace Noir2D
         _title.setCharacterSize(50);
         _title.setPosition(300, 100);
 
-        _playButton.setFont(_font);
+        /*_playButton.setFont(_font);
         _playButton.setString("Play");
         _playButton.setCharacterSize(30);
         _playButton.setPosition(350, 250);
@@ -22,7 +22,33 @@ namespace Noir2D
         _exitButton.setFont(_font);
         _exitButton.setString("Exit");
         _exitButton.setCharacterSize(30);
-        _exitButton.setPosition(350, 350);
+        _exitButton.setPosition(350, 350);*/
+        auto startButton = std::make_shared<GUIButton>(
+            sf::Vector2f(400, 200), sf::Vector2f(200, 50),_font, "Start Game",
+            [this]() {sf::Vector2f(400, 200), _engine.RequestStateChange(std::make_unique<GameState>(_engine)); } // Use make_unique
+        );
+
+        auto quitButton = std::make_shared<GUIButton>(
+            sf::Vector2f(400, 300), sf::Vector2f(200, 50), _font, "Quit",
+            [this]() {sf::Vector2f(400, 300), _engine.RequestQuit(); }
+        );
+
+        // Dropdown options for screen resolutions
+        std::vector<std::string> resolutions = { "800x600", "1280x720", "1920x1080", "2560x1440" };
+
+        // Create the dropdown and position it at the center of the screen
+        _dropdown = std::make_shared<GUIDropdown>(
+            sf::Vector2f(400, 300), _font, resolutions
+        );
+        
+        // Set callback for when a resolution is selected
+        _dropdown->SetCallback([](const std::string& selectedOption) {
+            std::cout << "Resolution changed to: " << selectedOption << std::endl;
+            });
+        // Add the dropdown to the GUI container
+        //_gui.AddElement(_dropdown);
+        _gui.AddElement(startButton);
+        _gui.AddElement(quitButton);
 	}
 
     void MainMenuState::HandleInput()
@@ -47,6 +73,7 @@ namespace Noir2D
         window.draw(_title);
         window.draw(_playButton);
         window.draw(_exitButton);
+        _gui.Draw(window);
     }
 
     void MainMenuState::Cleanup() 
@@ -55,5 +82,9 @@ namespace Noir2D
         //these will be replaced by GUI buttons soon
         _playButton = sf::Text();
         _exitButton = sf::Text();
+    }
+    void MainMenuState::HandleEvent(const sf::Event& event)
+    {
+        _gui.HandleEvent(event);
     }
 }
