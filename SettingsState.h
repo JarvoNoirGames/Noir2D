@@ -14,7 +14,7 @@ namespace Noir2D
         void Update(float dt) override;
         void Render(float dt) override;
         void Cleanup() override;
-        void ToggleFullscreen(bool toggle);
+        void ToggleFullscreen();
         void ReturnToMainMenu();
 
     private:

@@ -17,33 +17,19 @@ namespace Noir2D
 
         auto startButton = std::make_shared<GUIButton>(
             sf::Vector2f(400, 200), sf::Vector2f(200, 50),_font, "Start Game",
-            [this]() {sf::Vector2f(400, 200), _engine.RequestStateChange(std::make_unique<GameState>(_engine)); } // Use make_unique
+            [this]() {sf::Vector2f(400, 200), StartButtonOnClick(); }
         );
 
         auto quitButton = std::make_shared<GUIButton>(
             sf::Vector2f(400, 300), sf::Vector2f(200, 50), _font, "Quit",
-            [this]() {sf::Vector2f(400, 300), _engine.RequestQuit(); }
+            [this]() {sf::Vector2f(400, 300), QuitButtonOnClick(); }
         );
 
         auto settingsButton = std::make_shared<GUIButton>(
             sf::Vector2f(400, 400), sf::Vector2f(200, 50), _font, "Settings",
-            [this]() {sf::Vector2f(400, 400), _engine.RequestStateChange(std::make_unique<SettingsState>(_engine)); } // Use make_unique
+            [this]() {sf::Vector2f(400, 400), SettingsButtonOnClick(); }
         );
 
-        // Dropdown options for screen resolutions
-        std::vector<std::string> resolutions = { "800x600", "1280x720", "1920x1080", "2560x1440" };
-
-        // Create the dropdown and position it at the center of the screen
-        _dropdown = std::make_shared<GUIDropdown>(
-            sf::Vector2f(400, 300), _font, resolutions
-        );
-        
-        // Set callback for when a resolution is selected
-        _dropdown->SetCallback([](const std::string& selectedOption) {
-            std::cout << "Resolution changed to: " << selectedOption << std::endl;
-            });
-        // Add the dropdown to the GUI container
-        //_gui.AddElement(_dropdown);
         _gui.AddElement(startButton);
         _gui.AddElement(quitButton);
         _gui.AddElement(settingsButton);
@@ -80,6 +66,18 @@ namespace Noir2D
         //these will be replaced by GUI buttons soon
         _playButton = sf::Text();
         _exitButton = sf::Text();
+    }
+    void MainMenuState::StartButtonOnClick()
+    {
+        _engine.RequestStateChange(std::make_unique<GameState>(_engine));
+    }
+    void MainMenuState::QuitButtonOnClick()
+    {
+        _engine.RequestQuit();
+    }
+    void MainMenuState::SettingsButtonOnClick()
+    {
+        _engine.RequestStateChange(std::make_unique<SettingsState>(_engine));
     }
     void MainMenuState::HandleEvent(const sf::Event& event)
     {

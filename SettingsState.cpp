@@ -16,7 +16,7 @@ namespace Noir2D
 
         auto fullscreenButton = std::make_shared<GUIButton>(
             sf::Vector2f(350, 250), sf::Vector2f(200, 50), _font, "Fullscreen",
-            [this]() {sf::Vector2f(400, 300), this->ToggleFullscreen(!_fullscreen); }
+            [this]() {sf::Vector2f(400, 300), this->ToggleFullscreen(); }
         );
         auto backButton = std::make_shared<GUIButton>(
             sf::Vector2f(350, 450), sf::Vector2f(200, 50), _font, "Back",
@@ -58,9 +58,9 @@ namespace Noir2D
         _fullscreenButton = sf::Text();
         _backButton = sf::Text();
     }
-    void SettingsState::ToggleFullscreen(bool toggle)
+    void SettingsState::ToggleFullscreen()
     {
-        _fullscreen = toggle;
+        _fullscreen = !_fullscreen;
         if (_fullscreen) {
             _engine.GetWindow().create(sf::VideoMode(1920, 1080), "Game", sf::Style::Fullscreen);
         }

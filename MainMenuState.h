@@ -18,7 +18,9 @@ namespace Noir2D
         void Update(float dt) override;
         void Render(float dt) override;
         void Cleanup() override;
-
+        void StartButtonOnClick();
+        void QuitButtonOnClick();
+        void SettingsButtonOnClick();
     private:
         Engine& _engine;
         sf::Font _font;
@@ -26,6 +28,5 @@ namespace Noir2D
         sf::Text _playButton;
         sf::Text _exitButton;
         GUI _gui;
-        std::shared_ptr<GUIDropdown> _dropdown;
 	};
 }

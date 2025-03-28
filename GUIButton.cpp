@@ -4,7 +4,9 @@
 	{
         _shape.setPosition(position);
         _shape.setSize(size);
-        _shape.setFillColor(sf::Color(100, 100, 250)); // Default color
+        _shape.setFillColor(sf::Color(100, 100, 250));
+        _shape.setOutlineColor(sf::Color::White);
+        _shape.setOutlineThickness(3);
 
         _label.setFont(font);
         _label.setString(text);
@@ -42,5 +44,4 @@
     void Noir2D::GUIButton::ChangeEnabledColour(bool enabled)
     {
         _shape.setFillColor(enabled ? sf::Color(100, 100, 250) : sf::Color(50, 50, 50)); // Dim when disabled
-
     }
