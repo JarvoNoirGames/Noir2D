@@ -14,7 +14,7 @@ namespace Noir2D
 		void Draw(sf::RenderWindow& window) override;
 		void SetHovered(bool hovered) override;
 		void ChangeEnabledColour(bool enabled);
-		void ChangeHoverColour(bool hover);
+		void Hover(bool hover);
 		sf::RectangleShape GetShape() { return _shape; }
 	private:
 		sf::RectangleShape _shape;

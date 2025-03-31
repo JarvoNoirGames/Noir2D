@@ -4,6 +4,7 @@
 #include "GUI.h"
 #include "GUIDropdown.h"
 #include "GUIButton.h"
+#include "GUILabel.h"
 #include <SFML/Graphics.hpp>
 
 namespace Noir2D

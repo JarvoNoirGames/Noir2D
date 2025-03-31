@@ -34,19 +34,18 @@ namespace Noir2D
         _gui.HandleEvent(event,worldPos);
     }
 
-    void SettingsState::HandleInput() {
+    void SettingsState::HandleInput() 
+    {
         InputManager& input = InputManager::GetInstance();
-
-        if (input.IsKeyPressed(sf::Keyboard::Escape)) {
-            _engine.GetStateMachine().PopState();  // Go back to the previous state
-        }
     }
 
-    void SettingsState::Update(float deltaTime) {
-        // Additional updates if required, like saving preferences
+    void SettingsState::Update(float deltaTime) 
+    {
+
     }
 
-    void SettingsState::Render(float deltaTime) {
+    void SettingsState::Render(float deltaTime) 
+    {
         sf::RenderWindow& window = _engine.GetWindow();
         window.draw(_title);
         window.draw(_fullscreenButton);
@@ -63,7 +62,8 @@ namespace Noir2D
     void SettingsState::ToggleFullscreen()
     {
         _fullscreen = !_fullscreen;
-        if (_fullscreen) {
+        if (_fullscreen) 
+        {
             _engine.GetWindow().create(sf::VideoMode(1920, 1080), "Game", sf::Style::Fullscreen);
         }
         else {
@@ -72,7 +72,8 @@ namespace Noir2D
     }
     void SettingsState::ReturnToMainMenu()
     {
-        if (!_engine.GetStateMachine().IsEmpty()) {  // Ensure there's a state to return to
+        if (!_engine.GetStateMachine().IsEmpty()) 
+        {
             _engine.RequestStateChange(std::make_unique<MainMenuState>(_engine));
         }
     }

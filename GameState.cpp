@@ -1,6 +1,7 @@
 #include "GameState.h"
 #include "PauseState.h"
 #include "SettingsState.h"
+#include "MainMenuState.h"
 
 namespace Noir2D
 {
@@ -36,18 +37,15 @@ namespace Noir2D
         {
             _engine.GetStateMachine().PushState(std::make_unique<PauseState>(_engine));
         }
-
-        if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::S))
-        {
-            _engine.GetStateMachine().PushState(std::make_unique<SettingsState>(_engine));
-        }
     }
 
-    void GameState::Update(float deltaTime) {
+    void GameState::Update(float deltaTime) 
+    {
 
     }
 
-    void GameState::Render(float deltaTime) {
+    void GameState::Render(float deltaTime) 
+    {
         sf::RenderWindow& window = _engine.GetWindow();
         window.draw(_title);
         _gui.Draw(window);
@@ -56,5 +54,11 @@ namespace Noir2D
     void GameState::Cleanup() 
     {
         _font = sf::Font();
+    }
+    void GameState::ReturnToMainMenu()
+    {
+        if (!_engine.GetStateMachine().IsEmpty()) {  // Ensure there's a state to return to
+            _engine.RequestStateChange(std::make_unique<MainMenuState>(_engine));
+        }
     }
 }

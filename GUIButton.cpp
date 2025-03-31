@@ -24,8 +24,8 @@ void Noir2D::GUIButton::HandleEvent(const sf::Event& event, const sf::Vector2f& 
 {
 	if (!_enabled) return;
 
-	_hovered = _shape.getGlobalBounds().contains(mousePos);
-	ChangeHoverColour(_hovered);
+	SetHovered(_shape.getGlobalBounds().contains(mousePos));
+	Hover(_hovered);
 
 	if (event.type == sf::Event::MouseButtonPressed) {
 		sf::Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
@@ -40,7 +40,6 @@ void Noir2D::GUIButton::Draw(sf::RenderWindow& window)
 {
 	if (_enabled)
 	{
-
 		window.draw(_shape);
 		window.draw(_label);
 	}
@@ -48,6 +47,7 @@ void Noir2D::GUIButton::Draw(sf::RenderWindow& window)
 
 void Noir2D::GUIButton::SetHovered(bool hovered)
 {
+	_hovered = hovered;
 }
 
 void Noir2D::GUIButton::ChangeEnabledColour(bool enabled)
@@ -55,8 +55,9 @@ void Noir2D::GUIButton::ChangeEnabledColour(bool enabled)
 	_shape.setFillColor(enabled ? sf::Color(100, 100, 250) : sf::Color(50, 50, 50));
 }
 
-void Noir2D::GUIButton::ChangeHoverColour(bool hover)
+void Noir2D::GUIButton::Hover(bool hover)
 {
 	_shape.setFillColor(hover ? sf::Color::White : sf::Color::Transparent);
 	_label.setFillColor(hover ? sf::Color::Black : sf::Color::White);
+	_shape.setScale(hover ? sf::Vector2f(1.05, 1.05) : sf::Vector2f(1.0f, 1.0f));
 }

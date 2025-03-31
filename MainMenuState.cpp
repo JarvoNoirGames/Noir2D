@@ -10,10 +10,14 @@ namespace Noir2D
 	{
 		_font = AssetManager::GetInstance().GetFont("default");
 
-		_title.setFont(_font);
+		/*_title.setFont(_font);
         _title.setString("Main Menu");
         _title.setCharacterSize(50);
-        _title.setPosition(300, 100);
+        _title.setPosition(300, 100);*/
+
+        auto titleLabel = std::make_shared<GUILabel>(
+            sf::Vector2f(200, 100), "Main Menu", _font, 50, sf::Color::White,true
+        );
 
         auto startButton = std::make_shared<GUIButton>(
             sf::Vector2f(400, 200), sf::Vector2f(200, 50),_font, "Start Game",
@@ -30,6 +34,7 @@ namespace Noir2D
             [this]() {sf::Vector2f(400, 400), SettingsButtonOnClick(); }
         );
 
+        _gui.AddElement(titleLabel);
         _gui.AddElement(startButton);
         _gui.AddElement(quitButton);
         _gui.AddElement(settingsButton);

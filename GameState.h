@@ -22,5 +22,7 @@ namespace Noir2D
         sf::Text _title;
         sf::Font _font;
         GUI _gui;
+
+        void ReturnToMainMenu();
 	};
 }
