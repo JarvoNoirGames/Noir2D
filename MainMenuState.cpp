@@ -10,11 +10,6 @@ namespace Noir2D
 	{
 		_font = AssetManager::GetInstance().GetFont("default");
 
-		/*_title.setFont(_font);
-        _title.setString("Main Menu");
-        _title.setCharacterSize(50);
-        _title.setPosition(300, 100);*/
-
         auto titleLabel = std::make_shared<GUILabel>(
             sf::Vector2f(200, 100), "Main Menu", _font, 50, sf::Color::White,true
         );
@@ -68,9 +63,6 @@ namespace Noir2D
     void MainMenuState::Cleanup() 
     {
         _font = sf::Font();
-        //these will be replaced by GUI buttons soon
-        _playButton = sf::Text();
-        _exitButton = sf::Text();
     }
     void MainMenuState::StartButtonOnClick()
     {
