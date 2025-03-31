@@ -10,9 +10,11 @@ namespace Noir2D
 	public:
 		GUIButton(const sf::Vector2f& position, const sf::Vector2f& size, const sf::Font& font,
 			const std::string& text, std::function<void()> onClick);
-		void HandleEvent(const sf::Event& event) override;
+		void HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos) override;
 		void Draw(sf::RenderWindow& window) override;
+		void SetHovered(bool hovered) override;
 		void ChangeEnabledColour(bool enabled);
+		void ChangeHoverColour(bool hover);
 		sf::RectangleShape GetShape() { return _shape; }
 	private:
 		sf::RectangleShape _shape;
@@ -20,5 +22,6 @@ namespace Noir2D
 		std::function<void()> _onClick;
 		bool _enabled = true;
 		bool _isClicked = false;
+		bool _hovered = false;
 	};
 }

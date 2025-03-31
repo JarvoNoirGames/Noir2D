@@ -10,8 +10,8 @@ namespace Noir2D
 		virtual ~GUIElement() = default;
 
 		virtual void Draw(sf::RenderWindow& window) = 0;
-		virtual void HandleEvent(const sf::Event& event) = 0;
-
+		virtual void HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos) = 0;
+		virtual void SetHovered(bool hovered) {}
 		void SetPosition(const sf::Vector2f& position);
 		sf::Vector2f GetPosition() const;
 

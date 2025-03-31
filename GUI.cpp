@@ -4,12 +4,12 @@ void Noir2D::GUI::AddElement(std::shared_ptr<GUIElement> element) {
     _elements.push_back(element);
 }
 
-void Noir2D::GUI::HandleEvent(const sf::Event& event) {
+void Noir2D::GUI::HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos) {
     if (!_enabled) return;
 
     for (auto& element : _elements) {
         if (element->IsEnabled()) {
-            element->HandleEvent(event);
+            element->HandleEvent(event,mousePos);
         }
     }
 }

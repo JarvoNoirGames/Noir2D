@@ -25,7 +25,9 @@ namespace Noir2D
 
     void GameState::HandleEvent(const sf::Event& event)
     {
-        _gui.HandleEvent(event);
+        sf::Vector2i pixelPos = sf::Mouse::getPosition(_engine.GetWindow());
+        sf::Vector2f worldPos = _engine.GetWindow().mapPixelToCoords(pixelPos);
+        _gui.HandleEvent(event,worldPos);
     }
 
     void GameState::HandleInput() {

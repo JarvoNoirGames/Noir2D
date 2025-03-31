@@ -10,8 +10,7 @@ namespace Noir2D
         GUIDropdown(const sf::Vector2f& position, sf::Font& font, const std::vector<std::string>& options);
 
         void Draw(sf::RenderWindow& window) override;
-        void HandleEvent(const sf::Event& event) override;
-
+        void HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos) override;
         std::string GetSelectedOption() const;
         void SetCallback(std::function<void(const std::string&)> callback);
 

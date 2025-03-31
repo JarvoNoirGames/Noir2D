@@ -43,7 +43,7 @@ void Noir2D::GUIDropdown::Draw(sf::RenderWindow& window)
     }
 }
 
-void Noir2D::GUIDropdown::HandleEvent(const sf::Event& event)
+void Noir2D::GUIDropdown::HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos)
 {
     if (!IsEnabled()) return;
 

@@ -10,7 +10,7 @@ namespace Noir2D
     public:
         void AddElement(std::shared_ptr<GUIElement> element);
 
-        void HandleEvent(const sf::Event& event);
+        void HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos);
         void Draw(sf::RenderWindow& window);
 
         void SetVisible(bool visible);
