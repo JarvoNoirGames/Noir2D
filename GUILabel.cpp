@@ -14,6 +14,10 @@ Noir2D::GUILabel::GUILabel(const sf::Vector2f& position, const std::string& text
 	if (_hasBackground) {
 		UpdateBackground();
 	}
+
+	// Initialize shadow text (hidden by default)
+	_shadowText = _text;
+	_shadowText.setFillColor(sf::Color(0, 0, 0, 100)); // Semi-transparent black shadow
 }
 
 void Noir2D::GUILabel::HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos)
@@ -33,6 +37,24 @@ void Noir2D::GUILabel::SetBackgroundColor(const sf::Color& bgColor) {
 	if (_hasBackground) {
 		_background.setFillColor(bgColor);
 	}
+}
+
+void Noir2D::GUILabel::SetOutline(float thickness, const sf::Color& outlineColor)
+{
+	_text.setOutlineThickness(thickness);
+	_text.setOutlineColor(outlineColor);
+}
+
+void Noir2D::GUILabel::SetShadow(const sf::Vector2f& offset, const sf::Color& shadowColor)
+{
+	_shadowText.setPosition(_text.getPosition() + offset);
+	_shadowText.setFillColor(shadowColor);
+}
+
+void Noir2D::GUILabel::SetBlinkEffect(bool enable, float speed)
+{
+	_blinkEffect = enable;
+	_blinkSpeed = speed;
 }
 
 void Noir2D::GUILabel::SetAlignment(const std::string& align) {
@@ -73,9 +95,20 @@ void Noir2D::GUILabel::Draw(sf::RenderWindow& window) {
 	if (_hasBackground) {
 		window.draw(_background);
 	}
+	window.draw(_shadowText);
 	window.draw(_text);
 }
 
 void Noir2D::GUILabel::SetHovered(bool hovered)
 {
+
+}
+
+void Noir2D::GUILabel::Update(float deltaTime)
+{
+	if (_blinkEffect) {
+		_elapsedTime += deltaTime;
+		float alpha = static_cast<int>((sin(_elapsedTime * _blinkSpeed) * 0.5f + 0.5f) * 255);
+		_text.setFillColor(sf::Color(_text.getFillColor().r, _text.getFillColor().g, _text.getFillColor().b, alpha));
+	}
 }

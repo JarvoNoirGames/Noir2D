@@ -12,12 +12,11 @@ namespace Noir2D
 		virtual void Draw(sf::RenderWindow& window) = 0;
 		virtual void HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos) = 0;
 		virtual void SetHovered(bool hovered) {}
+		virtual void Update(float deltaTime) {}
 		void SetPosition(const sf::Vector2f& position);
 		sf::Vector2f GetPosition() const;
-
 		void SetVisible(bool visible);
 		bool IsVisible() const;
-
 		void SetEnabled(bool enabled);
 		bool IsEnabled() const;
 	private:

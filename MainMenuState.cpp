@@ -11,8 +11,11 @@ namespace Noir2D
 		_font = AssetManager::GetInstance().GetFont("default");
 
         auto titleLabel = std::make_shared<GUILabel>(
-            sf::Vector2f(200, 100), "Main Menu", _font, 50, sf::Color::White,true
+            sf::Vector2f(200, 100), "Main Menu", _font, 50, sf::Color::White,false
         );
+        titleLabel->SetBackgroundColor(sf::Color(20, 20, 20, 200));
+        titleLabel->SetAlignment("center");
+        titleLabel->SetOutline(3.0f, sf::Color::Black);
 
         auto startButton = std::make_shared<GUIButton>(
             sf::Vector2f(400, 200), sf::Vector2f(200, 50),_font, "Start Game",
@@ -48,7 +51,7 @@ namespace Noir2D
 
     void MainMenuState::Update(float deltaTime)
     {
-
+        _gui.Update(deltaTime);
     }
 
     void MainMenuState::Render(float deltaTime)

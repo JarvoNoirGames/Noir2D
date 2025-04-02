@@ -17,8 +17,8 @@ namespace Noir2D
         _title.setPosition(300, 100);
 
         auto quitButton = std::make_shared<GUIButton>(
-            sf::Vector2f(400, 300), sf::Vector2f(200, 50), _font, "Quit",
-            [this]() {sf::Vector2f(400, 300), _engine.RequestQuit(); }
+            sf::Vector2f(400, 300), sf::Vector2f(200, 50), _font, "Back",
+            [this]() {sf::Vector2f(400, 300), ReturnToMainMenu(); }
         );
 
         _gui.AddElement(quitButton);
@@ -41,7 +41,7 @@ namespace Noir2D
 
     void GameState::Update(float deltaTime) 
     {
-
+        _gui.Update(deltaTime);
     }
 
     void GameState::Render(float deltaTime) 
