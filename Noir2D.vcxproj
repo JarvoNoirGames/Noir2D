@@ -147,6 +147,7 @@
     <ClCompile Include="GUIElement.cpp" />
     <ClCompile Include="GUIImage.cpp" />
     <ClCompile Include="GUILabel.cpp" />
+    <ClCompile Include="GUITextbox.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="main.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="GUIElement.h" />
     <ClInclude Include="GUIImage.h" />
     <ClInclude Include="GUILabel.h" />
+    <ClInclude Include="GUITextbox.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MainMenuState.h" />
