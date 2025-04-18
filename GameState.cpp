@@ -2,63 +2,69 @@
 #include "PauseState.h"
 #include "SettingsState.h"
 #include "MainMenuState.h"
+#include "GUITextbox.h"
 
 namespace Noir2D
 {
-    GameState::GameState(Engine& engine) : _engine(engine) {}
+	GameState::GameState(Engine& engine) : _engine(engine) {}
 
-    void GameState::Init() 
-    {
-        _font = AssetManager::GetInstance().GetFont("default");
+	void GameState::Init()
+	{
+		_font = AssetManager::GetInstance().GetFont("default");
 
-        _title.setFont(_font);
-        _title.setString("Game State");
-        _title.setCharacterSize(50);
-        _title.setPosition(300, 100);
+		auto backButton = std::make_shared<GUIButton>(
+			sf::Vector2f(600, 500), sf::Vector2f(100, 50), _font, "Back",
+			[this]() {sf::Vector2f(400, 300), ReturnToMainMenu(); }
+		);
+		_gui.AddElement(backButton);
 
-        auto quitButton = std::make_shared<GUIButton>(
-            sf::Vector2f(400, 300), sf::Vector2f(200, 50), _font, "Back",
-            [this]() {sf::Vector2f(400, 300), ReturnToMainMenu(); }
-        );
+		// Example text content
+		std::string dialogue = "Welcome to the game! Look at my GUITextbox with a typing effect! effect effect effect effect effect effect";
+		auto textbox = std::make_shared<GUITextbox>
+			(sf::Vector2f(100, 100), // Position
+				sf::Vector2f(600, 100), // Size
+				_font,
+				dialogue,
+				24.f // Font size
+			);
+		_gui.AddElement(textbox);
+	}
 
-        _gui.AddElement(quitButton);
-    }
+	void GameState::HandleEvent(const sf::Event& event)
+	{
+		sf::Vector2i pixelPos = sf::Mouse::getPosition(_engine.GetWindow());
+		sf::Vector2f worldPos = _engine.GetWindow().mapPixelToCoords(pixelPos);
+		_gui.HandleEvent(event, worldPos);
+	}
 
-    void GameState::HandleEvent(const sf::Event& event)
-    {
-        sf::Vector2i pixelPos = sf::Mouse::getPosition(_engine.GetWindow());
-        sf::Vector2f worldPos = _engine.GetWindow().mapPixelToCoords(pixelPos);
-        _gui.HandleEvent(event,worldPos);
-    }
+	void GameState::HandleInput() {
+		InputManager& input = InputManager::GetInstance();
+		if (input.IsKeyPressed(sf::Keyboard::Escape))
+		{
+			_engine.GetStateMachine().PushState(std::make_unique<PauseState>(_engine));
+		}
+	}
 
-    void GameState::HandleInput() {
-        InputManager& input = InputManager::GetInstance();
-        if (input.IsKeyPressed(sf::Keyboard::Escape)) 
-        {
-            _engine.GetStateMachine().PushState(std::make_unique<PauseState>(_engine));
-        }
-    }
+	void GameState::Update(float deltaTime)
+	{
+		_gui.Update(deltaTime);
+	}
 
-    void GameState::Update(float deltaTime) 
-    {
-        _gui.Update(deltaTime);
-    }
+	void GameState::Render(float deltaTime)
+	{
+		sf::RenderWindow& window = _engine.GetWindow();
+		window.draw(_title);
+		_gui.Draw(window);
+	}
 
-    void GameState::Render(float deltaTime) 
-    {
-        sf::RenderWindow& window = _engine.GetWindow();
-        window.draw(_title);
-        _gui.Draw(window);
-    }
-
-    void GameState::Cleanup() 
-    {
-        _font = sf::Font();
-    }
-    void GameState::ReturnToMainMenu()
-    {
-        if (!_engine.GetStateMachine().IsEmpty()) {  // Ensure there's a state to return to
-            _engine.RequestStateChange(std::make_unique<MainMenuState>(_engine));
-        }
-    }
+	void GameState::Cleanup()
+	{
+		_font = sf::Font();
+	}
+	void GameState::ReturnToMainMenu()
+	{
+		if (!_engine.GetStateMachine().IsEmpty()) {  // Ensure there's a state to return to
+			_engine.RequestStateChange(std::make_unique<MainMenuState>(_engine));
+		}
+	}
 }

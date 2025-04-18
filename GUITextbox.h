@@ -6,7 +6,8 @@
 
 namespace Noir2D
 {
-    class GUITextbox : public GUIElement {
+    class GUITextbox : public GUIElement 
+    {
     public:
         GUITextbox(const sf::Vector2f& position, const sf::Vector2f& size, sf::Font& font,
             const std::string& text = "", unsigned int fontSize = 24,
@@ -25,6 +26,11 @@ namespace Noir2D
         void UpdateLayout() override;
         void CompleteText();
         void HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos) override;
+        float GetFontSize();
+        void SetFontSize(const float size);
+        std::string WrapTextToFit(const std::string& text, float maxWidth);
+        std::vector<std::string> SplitTextIntoWords(const std::string& text);
+
     private:
         sf::RectangleShape _box;
         sf::Text _text;
@@ -35,7 +41,9 @@ namespace Noir2D
 
         float _typingSpeed = 50.0f; // Characters per second
         float _typingTimer = 0.0f;
-        bool _typingEnabled = false;
+        bool _typingEnabled = true;
         bool _isTyping = false;
+        float _fontSize = 24.f;
+        sf::Vector2f _padding = { 10.f, 10.f };  // Padding for the text inside the box
     };
 }

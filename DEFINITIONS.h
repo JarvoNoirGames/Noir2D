@@ -17,3 +17,5 @@
 #define HOME_BUTTON "../../Resources/res/Home Button.png"
 #define RETRY_BUTTON "../../Resources/res/Retry Button.png"
 #define DEFAULT_FONT "../../Resources/fonts/arial.ttf"
+
+#define DEFAULT_FONT_SIZE = 24.f
