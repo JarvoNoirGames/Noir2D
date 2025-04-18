@@ -34,6 +34,14 @@ void Noir2D::GUI::Update(float deltaTime)
     }
 }
 
+void Noir2D::GUI::UpdateLayout()
+{
+    for (auto& element : _elements)
+    {
+        element->UpdateLayout();
+    }
+}
+
 void Noir2D::GUI::SetVisible(bool visible) 
 {
     _visible = visible;

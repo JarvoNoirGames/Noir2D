@@ -2,6 +2,8 @@
 
 Noir2D::GUIButton::GUIButton(const sf::Vector2f& position, const sf::Vector2f& size, const sf::Font& font, const std::string& text, std::function<void()> onClick) : GUIElement(position), _onClick(std::move(onClick)), _hovered(false)
 {
+	SetOriginalPosition(position);
+	SetOriginalSize(size);
 	_shape.setPosition(position);
 	_shape.setSize(size);
 	_shape.setFillColor(sf::Color::Transparent);
@@ -48,6 +50,28 @@ void Noir2D::GUIButton::Draw(sf::RenderWindow& window)
 void Noir2D::GUIButton::SetHovered(bool hovered)
 {
 	_hovered = hovered;
+}
+
+void Noir2D::GUIButton::UpdateLayout()
+{
+	auto& res = ResolutionManager::GetInstance();
+	float scaleX = res.GetScaleX();
+	float scaleY = res.GetScaleY();
+
+	_shape.setPosition(GetOriginalPosition().x * scaleX, GetOriginalPosition().y * scaleY);
+	_shape.setSize(sf::Vector2f(GetOriginalSize().x * scaleX, GetOriginalSize().y * scaleY));
+
+	// Update label size & position
+	_label.setCharacterSize(static_cast<unsigned int>(_originalFontSize * scaleY));
+
+	// Center the text inside the button
+	sf::FloatRect textBounds = _label.getLocalBounds();
+	_label.setOrigin(textBounds.left + textBounds.width / 2.0f,
+		textBounds.top + textBounds.height / 2.0f);
+	_label.setPosition(
+		_shape.getPosition().x + _shape.getSize().x / 2.0f,
+		_shape.getPosition().y + _shape.getSize().y / 2.0f
+	);
 }
 
 void Noir2D::GUIButton::ChangeEnabledColour(bool enabled)

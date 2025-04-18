@@ -10,6 +10,8 @@ namespace Noir2D
     {
         AssetManager::GetInstance().LoadTexture("splash_logo", SPLASH_SCENE_BACKGROUND_FILEPATH);
         AssetManager::GetInstance().LoadFont("default", DEFAULT_FONT);
+        ResolutionManager::GetInstance().SetBaseResolution({ SCREEN_WIDTH, SCREEN_HEIGHT });
+        ResolutionManager::GetInstance().SetWindowSize(_window.getSize());
         _stateMachine.PushState(std::make_unique<SplashScreenState>(*this));
     }
 

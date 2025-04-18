@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "GUIElement.h"
+#include "ResolutionManager.h"
 
 namespace Noir2D
 {
@@ -14,6 +15,7 @@ namespace Noir2D
 		void Draw(sf::RenderWindow& window) override;
 		void SetHovered(bool hovered) override;
 		void Update(float deltaTime) override;
+		void UpdateLayout() override;
 		void SetText(const std::string& newText);
 		void SetColor(const sf::Color& textColor);
 		void SetBackgroundColor(const sf::Color& bgColor);
@@ -31,5 +33,6 @@ namespace Noir2D
 		float _blinkSpeed = 1.0f;
 		float _elapsedTime = 0.0f;
 		std::string _alignment;
+		unsigned int _originalFontSize = 20;
 	};
 }

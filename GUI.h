@@ -13,6 +13,7 @@ namespace Noir2D
         void HandleEvent(const sf::Event& event, const sf::Vector2f& mousePos);
         void Draw(sf::RenderWindow& window);
         void Update(float deltaTime);
+        void UpdateLayout();
         void SetVisible(bool visible);
         void SetEnabled(bool enabled);
 

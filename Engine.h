@@ -1,5 +1,5 @@
 #pragma once
-
+#include "ResolutionManager.h"
 #include <SFML/Graphics.hpp>
 #include "AssetManager.h"
 #include "InputManager.h"

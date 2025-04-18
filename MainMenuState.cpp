@@ -2,40 +2,45 @@
 #include "GameState.h"
 #include "SettingsState.h"
 #include <iostream>
+
 namespace Noir2D
 {
     MainMenuState::MainMenuState(Engine& engine) : _engine(engine) {}
 
 	void MainMenuState::Init()
 	{
+        //Main Logo
+        const sf::Texture& logoTexture = AssetManager::GetInstance().GetTexture("splash_logo");
+        sf::Vector2u windowSize = _engine.GetWindow().getSize();
+        sf::Vector2u textureSize = logoTexture.getSize();
+        auto logoImage = std::make_shared<GUIImage>(sf::Vector2f((windowSize.x - textureSize.x) / 2, (windowSize.y - textureSize.y) / 2), logoTexture);
+        _gui.AddElement(logoImage);
+
+        //Menu Buttons
 		_font = AssetManager::GetInstance().GetFont("default");
+        std::vector<std::string> buttonLabels = { "Start Game", "Settings", "Quit" };
+        std::vector<std::function<void()>> actions = {
+            [this]() { StartButtonOnClick(); },
+            [this]() { SettingsButtonOnClick(); },
+            [this]() { QuitButtonOnClick(); }
+        };
+        const float buttonWidth = 250.0f;
+        const float buttonHeight = 60.0f;
+        const float verticalSpacing = 20.0f;
+        sf::Vector2f startPosition(275.f, 300.f);
 
-        auto titleLabel = std::make_shared<GUILabel>(
-            sf::Vector2f(200, 100), "Main Menu", _font, 50, sf::Color::White,false
-        );
-        titleLabel->SetBackgroundColor(sf::Color(20, 20, 20, 200));
-        titleLabel->SetAlignment("center");
-        titleLabel->SetOutline(3.0f, sf::Color::Black);
-
-        auto startButton = std::make_shared<GUIButton>(
-            sf::Vector2f(400, 200), sf::Vector2f(200, 50),_font, "Start Game",
-            [this]() {sf::Vector2f(400, 200), StartButtonOnClick(); }
-        );
-
-        auto quitButton = std::make_shared<GUIButton>(
-            sf::Vector2f(400, 300), sf::Vector2f(200, 50), _font, "Quit",
-            [this]() {sf::Vector2f(400, 300), QuitButtonOnClick(); }
-        );
-
-        auto settingsButton = std::make_shared<GUIButton>(
-            sf::Vector2f(400, 400), sf::Vector2f(200, 50), _font, "Settings",
-            [this]() {sf::Vector2f(400, 400), SettingsButtonOnClick(); }
-        );
-
-        _gui.AddElement(titleLabel);
-        _gui.AddElement(startButton);
-        _gui.AddElement(quitButton);
-        _gui.AddElement(settingsButton);
+        for (size_t i = 0; i < buttonLabels.size(); ++i) {
+            sf::Vector2f position = {
+                startPosition.x,
+                startPosition.y + (buttonHeight + verticalSpacing) * static_cast<float>(i)
+            };
+            auto button = std::make_shared<GUIButton>(
+                position, sf::Vector2f(buttonWidth, buttonHeight),
+                _font, buttonLabels[i], actions[i]
+            );
+            _gui.AddElement(button);
+        }
+        _gui.UpdateLayout();
 	}
 
     void MainMenuState::HandleInput()
@@ -57,9 +62,6 @@ namespace Noir2D
     void MainMenuState::Render(float deltaTime)
     {
         sf::RenderWindow& window = _engine.GetWindow();
-        window.draw(_title);
-        window.draw(_playButton);
-        window.draw(_exitButton);
         _gui.Draw(window);
     }
 

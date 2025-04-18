@@ -13,6 +13,26 @@ sf::Vector2f Noir2D::GUIElement::GetPosition() const
 	return _position;
 }
 
+void Noir2D::GUIElement::SetOriginalPosition(const sf::Vector2f& position)
+{
+	_originalPosition = position;
+}
+
+sf::Vector2f Noir2D::GUIElement::GetOriginalPosition() const
+{
+	return _originalPosition;
+}
+
+void Noir2D::GUIElement::SetOriginalSize(const sf::Vector2f& size)
+{
+	_originalSize = size;
+}
+
+sf::Vector2f Noir2D::GUIElement::GetOriginalSize() const
+{
+	return _originalSize;
+}
+
 void Noir2D::GUIElement::SetVisible(bool visible)
 {
 	_visible = visible;

@@ -112,3 +112,21 @@ void Noir2D::GUILabel::Update(float deltaTime)
 		_text.setFillColor(sf::Color(_text.getFillColor().r, _text.getFillColor().g, _text.getFillColor().b, alpha));
 	}
 }
+
+void Noir2D::GUILabel::UpdateLayout()
+{
+	auto& res = ResolutionManager::GetInstance();
+	float scaleX = res.GetScaleX();
+	float scaleY = res.GetScaleY();
+
+	sf::Vector2f scaledPosition = { GetOriginalPosition().x * scaleX, GetOriginalPosition().y * scaleY};
+	_text.setCharacterSize(static_cast<unsigned int>(_originalFontSize * scaleY));
+	_text.setPosition(scaledPosition);
+
+	if (_hasBackground) {
+		sf::FloatRect bounds = _text.getGlobalBounds();
+		_background.setSize({ bounds.width + 10.f, bounds.height + 10.f });
+		_background.setFillColor(sf::Color(50, 50, 50, 150));
+		_background.setPosition(scaledPosition.x - 5.f, scaledPosition.y - 5.f);
+	}
+}

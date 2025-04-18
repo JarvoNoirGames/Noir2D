@@ -65,9 +65,14 @@ namespace Noir2D
         if (_fullscreen) 
         {
             _engine.GetWindow().create(sf::VideoMode(1920, 1080), "Game", sf::Style::Fullscreen);
+            ResolutionManager::GetInstance().SetWindowSize(_engine.GetWindow().getSize());
+            _gui.UpdateLayout();
         }
-        else {
+        else 
+        {
             _engine.GetWindow().create(sf::VideoMode(800, 600), "Game");
+            ResolutionManager::GetInstance().SetWindowSize(_engine.GetWindow().getSize());
+            _gui.UpdateLayout();
         }
     }
     void SettingsState::ReturnToMainMenu()
