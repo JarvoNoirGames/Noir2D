@@ -12,11 +12,14 @@ namespace Noir2D
 	{
 		_font = AssetManager::GetInstance().GetFont("default");
 
-		auto backButton = std::make_shared<GUIButton>(
+		/*auto backButton = std::make_shared<GUIButton>(
 			sf::Vector2f(600, 500), sf::Vector2f(100, 50), _font, "Back",
 			[this]() {sf::Vector2f(400, 300), ReturnToMainMenu(); }
 		);
-		_gui.AddElement(backButton);
+		_gui.AddElement(backButton);*/
+		const sf::Texture& logoTexture = AssetManager::GetInstance().GetTexture("splash_logo");
+		auto imageButton = std::make_shared<GUIImageButton>(sf::Vector2f(600, 500), sf::Vector2f(100, 50), logoTexture, [this]() {ReturnToMainMenu(); });
+		_gui.AddElement(imageButton);
 
 		// Example text content
 		std::string dialogue = "Welcome to the game! Look at my GUITextbox with a typing effect that handles word wrapping as well, I had to take 2 ibuprofen after getting this to work!";

@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "GUI.h"
 #include "GUIButton.h"
+#include "GUIImageButton.h"
 
 namespace Noir2D
 {
