@@ -19,7 +19,7 @@ namespace Noir2D
 		_gui.AddElement(backButton);
 
 		// Example text content
-		std::string dialogue = "Welcome to the game! Look at my GUITextbox with a typing effect! effect effect effect effect effect effect";
+		std::string dialogue = "Welcome to the game! Look at my GUITextbox with a typing effect that handles word wrapping as well, I had to take 2 ibuprofen after getting this to work!";
 		auto textbox = std::make_shared<GUITextbox>
 			(sf::Vector2f(100, 100), // Position
 				sf::Vector2f(600, 100), // Size

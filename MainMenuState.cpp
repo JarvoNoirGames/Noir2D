@@ -13,7 +13,7 @@ namespace Noir2D
         const sf::Texture& logoTexture = AssetManager::GetInstance().GetTexture("splash_logo");
         sf::Vector2u windowSize = _engine.GetWindow().getSize();
         sf::Vector2u textureSize = logoTexture.getSize();
-        auto logoImage = std::make_shared<GUIImage>(sf::Vector2f((windowSize.x - textureSize.x) / 2, (windowSize.y - textureSize.y) / 2), logoTexture);
+        auto logoImage = std::make_shared<GUIImage>(sf::Vector2f((windowSize.x - textureSize.x) / 2, 50), logoTexture);
         _gui.AddElement(logoImage);
 
         //Menu Buttons

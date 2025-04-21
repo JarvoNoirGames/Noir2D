@@ -17,6 +17,7 @@ namespace Noir2D
 
     void Engine::Run() {
         sf::Clock clock;
+        _window.setFramerateLimit(60);
         while (_window.isOpen()) {
             float dt = clock.restart().asSeconds();
             ProcessEvents();
