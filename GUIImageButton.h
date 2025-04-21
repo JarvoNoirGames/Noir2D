@@ -27,5 +27,7 @@ namespace Noir2D
 		sf::Vector2f _size;
 		sf::Color _normalColour = sf::Color::Transparent;
 		sf::Color _hoverColour = sf::Color::White;
+		sf::Color _spriteNormalColour = sf::Color(255,255,255,255);
+		sf::Color _spriteHoverColour = sf::Color(255, 255, 255, 150);
 	};
 }
