@@ -77,6 +77,7 @@ void Noir2D::GUIImageButton::SetHovered(bool hovered)
 {
 	_hovered = hovered;
 	_sprite.setColor(_hovered ? _spriteHoverColour : _spriteNormalColour);
+	_shape.setOutlineColor(_hovered ? _spriteHoverColour : _spriteNormalColour);
 }
 
 void Noir2D::GUIImageButton::SetScale(float x, float y)
