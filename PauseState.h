@@ -9,6 +9,7 @@ namespace Noir2D
 	public:
 		PauseState(Engine& engine);
 		void Init() override;
+		void HandleEvent(const sf::Event& event) override;
 		void HandleInput() override;
 		void Update(float dt) override;
 		void Render(float dt) override;

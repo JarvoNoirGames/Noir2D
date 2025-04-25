@@ -20,6 +20,10 @@ namespace Noir2D
         _progressBar.setPosition(200, 300);
     }
 
+    void LoadingState::HandleEvent(const sf::Event& event)
+    {
+    }
+
     void LoadingState::HandleInput() {
         // No input in loading state; this can be enhanced if needed.
     }

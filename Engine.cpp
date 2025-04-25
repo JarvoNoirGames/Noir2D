@@ -10,11 +10,14 @@ namespace Noir2D
     {
         AssetManager::GetInstance().LoadTexture("splash_logo", SPLASH_SCENE_BACKGROUND_FILEPATH);
         AssetManager::GetInstance().LoadFont("default", DEFAULT_FONT);
+        ResolutionManager::GetInstance().SetBaseResolution({ SCREEN_WIDTH, SCREEN_HEIGHT });
+        ResolutionManager::GetInstance().SetWindowSize(_window.getSize());
         _stateMachine.PushState(std::make_unique<SplashScreenState>(*this));
     }
 
     void Engine::Run() {
         sf::Clock clock;
+        _window.setFramerateLimit(60);
         while (_window.isOpen()) {
             float dt = clock.restart().asSeconds();
             ProcessEvents();
@@ -35,10 +38,20 @@ namespace Noir2D
         return _stateMachine;
     }
 
+    void Engine::RequestStateChange(std::unique_ptr<State> newState)
+    {
+        _pendingState = std::move(newState);
+    }
+
+    void Engine::RequestQuit()
+    {
+        _quitRequested = true;
+    }
+
     void Engine::ProcessEvents() {
         sf::Event event;
         while (_window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if ((event.type == sf::Event::Closed) || (_quitRequested))
             {
                 _window.close();
             }
@@ -47,6 +60,15 @@ namespace Noir2D
         // Forward input handling to the current state
         if (!_stateMachine.IsEmpty()) {
             _stateMachine.GetActiveState()->HandleInput();
+        }
+        // Forward events to the current state
+        if (!_stateMachine.IsEmpty()) {
+            _stateMachine.GetActiveState()->HandleEvent(event);
+        }
+        // Process pending actions
+        if (_pendingState) {
+            _stateMachine.ChangeState(std::move(_pendingState));
+            _pendingState.reset();
         }
     }
 
@@ -59,5 +81,21 @@ namespace Noir2D
         _window.clear(sf::Color::Black);
         if (_stateMachine.GetActiveState()) _stateMachine.GetActiveState()->Render(deltaTime);
         _window.display();
+    }
+
+    void Engine::RequestStatePush(std::unique_ptr<State> newState) {
+        //if (!_stateStack.empty()) {
+        //    _stateStack.top()->Pause(); // Optional: Pause current state
+        //}
+        _stateStack.push(std::move(newState));
+    }
+
+    void Engine::RequestStatePop() {
+        if (!_stateStack.empty()) {
+            _stateStack.pop(); // Remove top state
+        }
+        //if (!_stateStack.empty()) {
+        //    _stateStack.top()->Resume(); // Optional: Resume previous state
+        //}
     }
 }

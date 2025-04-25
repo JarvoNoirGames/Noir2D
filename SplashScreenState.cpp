@@ -15,6 +15,10 @@ namespace Noir2D
         _clock.restart();
     }
 
+    void SplashScreenState::HandleEvent(const sf::Event& event)
+    {
+    }
+
     void SplashScreenState::HandleInput() 
     {
         InputManager& input = InputManager::GetInstance();

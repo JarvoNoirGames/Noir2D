@@ -14,6 +14,11 @@ namespace Noir2D
         _gameOverText.setPosition(200, 200);
     }
 
+    void GameOverState::HandleEvent(const sf::Event& event)
+    {
+
+    }
+
     void GameOverState::HandleInput() {
         if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::Enter)) {
             _engine.GetStateMachine().ChangeState(std::make_unique<MainMenuState>(_engine));

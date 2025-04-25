@@ -13,6 +13,10 @@ namespace Noir2D
         _pauseText.setPosition(200, 200);
     }
 
+    void PauseState::HandleEvent(const sf::Event& event)
+    {
+    }
+
     void PauseState::HandleInput() {
         if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::Escape)) {
             _engine.GetStateMachine().PopState();
