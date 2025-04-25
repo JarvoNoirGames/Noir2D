@@ -58,8 +58,9 @@ void Noir2D::GUIButton::UpdateLayout()
 	float scaleX = res.GetScaleX();
 	float scaleY = res.GetScaleY();
 
-	_shape.setPosition(GetOriginalPosition().x * scaleX, GetOriginalPosition().y * scaleY);
+	_shape.setPosition(GetPosition().x * scaleX, GetPosition().y * scaleY);
 	_shape.setSize(sf::Vector2f(GetOriginalSize().x * scaleX, GetOriginalSize().y * scaleY));
+	//_shape.setSize(sf::Vector2f(_shape.getSize().x * scaleX, _shape.getSize().y * scaleY));
 
 	// Update label size & position
 	_label.setCharacterSize(static_cast<unsigned int>(_originalFontSize * scaleY));
@@ -83,5 +84,5 @@ void Noir2D::GUIButton::Hover(bool hover)
 {
 	_shape.setFillColor(hover ? sf::Color::White : sf::Color::Transparent);
 	_label.setFillColor(hover ? sf::Color::Black : sf::Color::White);
-	_shape.setScale(hover ? sf::Vector2f(1.05, 1.05) : sf::Vector2f(1.0f, 1.0f));
+	//_shape.setScale(hover ? sf::Vector2f(1.05, 1.05) : sf::Vector2f(1.0f, 1.0f));
 }

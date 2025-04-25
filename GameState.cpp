@@ -3,6 +3,7 @@
 #include "SettingsState.h"
 #include "MainMenuState.h"
 #include "GUITextbox.h"
+#include "GUIPanel.h"
 
 namespace Noir2D
 {
@@ -12,25 +13,32 @@ namespace Noir2D
 	{
 		_font = AssetManager::GetInstance().GetFont("default");
 
-		/*auto backButton = std::make_shared<GUIButton>(
-			sf::Vector2f(600, 500), sf::Vector2f(100, 50), _font, "Back",
-			[this]() {sf::Vector2f(400, 300), ReturnToMainMenu(); }
+		// Create a panel that holds buttons
+		auto buttonPanel = std::make_shared<GUIPanel>(
+			sf::Vector2f(200,200),   //position
+			sf::Vector2f(150, 200),   //size
+			sf::Color(50, 50, 50, 150),
+			GUIPanel::LayoutDirection::Vertical,
+			15.f                      //padding
 		);
-		_gui.AddElement(backButton);*/
-		const sf::Texture& logoTexture = AssetManager::GetInstance().GetTexture("splash_logo");
-		auto imageButton = std::make_shared<GUIImageButton>(sf::Vector2f(600, 500), sf::Vector2f(100, 50), logoTexture, [this]() {ReturnToMainMenu(); });
-		_gui.AddElement(imageButton);
 
-		// Example text content
-		std::string dialogue = "Welcome to the game! Look at my GUITextbox with a typing effect that handles word wrapping as well, I had to take 2 ibuprofen after getting this to work!";
-		auto textbox = std::make_shared<GUITextbox>
-			(sf::Vector2f(100, 100), // Position
-				sf::Vector2f(600, 100), // Size
-				_font,
-				dialogue,
-				24.f // Font size
+		// Create buttons to go in the panel
+		std::vector<std::pair<std::string, std::function<void()>>> buttonData = {
+			{ "Back 1", [this]() { ReturnToMainMenu(); } },
+			{ "Back 2", [this]() { ReturnToMainMenu(); } },
+			{ "Back 3", [this]() { ReturnToMainMenu(); } }
+		};
+
+		for (const auto& [label, callback] : buttonData)
+		{
+			auto btn = std::make_shared<GUIButton>(
+				sf::Vector2f(0, 0),
+				sf::Vector2f(100, 50),
+				_font, label, callback
 			);
-		_gui.AddElement(textbox);
+			buttonPanel->AddElement(btn);
+		}
+		_gui.AddElement(buttonPanel);
 	}
 
 	void GameState::HandleEvent(const sf::Event& event)
