@@ -69,10 +69,6 @@ void Noir2D::GUIPanel::UpdateLayout()
 		break;
 	}
 
-	// Clamp values here
-	//elementSize.x = std::clamp(elementSize.x, 50.f, 300.f); // adjust as needed
-	//elementSize.y = std::clamp(elementSize.y, 30.f, 100.f);
-
 	for (auto& elem : _elements)
 	{
 		elem->SetPosition(currentOffset);
