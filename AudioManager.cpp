@@ -1,5 +1,15 @@
 #include "AudioManager.h"
 
+void Noir2D::AudioManager::Update()
+{
+	// Clean up finished sounds
+	_activeSounds.erase(
+		std::remove_if(_activeSounds.begin(), _activeSounds.end(),
+			[](const std::shared_ptr<sf::Sound>& sound) { return sound->getStatus() == sf::Sound::Stopped; }),
+		_activeSounds.end()
+	);
+}
+
 void Noir2D::AudioManager::PlayMusic(const std::string& filename, bool loop)
 {
 	_music.stop();
@@ -30,25 +40,22 @@ float Noir2D::AudioManager::GetMusicVolume() const
 void Noir2D::AudioManager::PlaySound(const std::string& name)
 {
 	auto iter = _soundBuffers.find(name);
-	if (iter != _soundBuffers.end())
-	{
-		sf::Sound sound;
-		sound.setBuffer(iter->second);
-		sound.setVolume(_soundVolume);
-		sound.play();
-		_activeSounds.push_back(sound);
-	}
+	if (iter == _soundBuffers.end())
+		return;
 
-	_activeSounds.erase(
-		std::remove_if(_activeSounds.begin(), _activeSounds.end(),
-			[](const sf::Sound& s) { return s.getStatus() == sf::Sound::Stopped; }),
-		_activeSounds.end()
-	);
+	auto sound = std::make_shared<sf::Sound>(iter->second);
+	sound->setVolume(_soundVolume);
+	sound->play();
+	_activeSounds.push_back(sound);
 }
 
 void Noir2D::AudioManager::LoadSound(const std::string& name, const std::string& filepath)
 {
-
+	sf::SoundBuffer buffer;
+	if (buffer.loadFromFile(filepath))
+	{
+		_soundBuffers[name] = buffer;
+	}
 }
 
 void Noir2D::AudioManager::SetSoundVolume(float volume)

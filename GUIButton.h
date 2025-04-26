@@ -3,7 +3,7 @@
 #include <functional>
 #include "GUIElement.h"
 #include "ResolutionManager.h"
-
+#include "AudioManager.h"
 namespace Noir2D
 {
 	class GUIButton : public GUIElement

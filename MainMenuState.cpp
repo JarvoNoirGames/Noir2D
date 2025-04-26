@@ -9,6 +9,11 @@ namespace Noir2D
 
 	void MainMenuState::Init()
 	{
+        //Audio
+        //AudioManager::GetInstance().PlayMusic(MAIN_MENU_MUSIC, true);
+        AudioManager::GetInstance().LoadSound("button_hover", BUTTON_HOVER_SOUND);
+        AudioManager::GetInstance().LoadSound("button_click", BUTTON_CLICK_SOUND);
+        
         //Main Logo
         const sf::Texture& logoTexture = AssetManager::GetInstance().GetTexture("splash_logo");
         sf::Vector2u windowSize = _engine.GetWindow().getSize();

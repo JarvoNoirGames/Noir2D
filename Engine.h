@@ -4,6 +4,7 @@
 #include "AssetManager.h"
 #include "InputManager.h"
 #include "StateMachine.h"
+#include "AudioManager.h"
 #include "DEFINITIONS.h"
 
 namespace Noir2D
@@ -23,6 +24,7 @@ namespace Noir2D
 		StateMachine _stateMachine;
 		AssetManager& _assetManager;
 		InputManager& _inputManager;
+		AudioManager& _audioManager;
 
 		void ProcessEvents();
 		void Update(float deltaTime);
