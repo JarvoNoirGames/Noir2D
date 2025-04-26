@@ -27,13 +27,16 @@ void Noir2D::GUIButton::HandleEvent(const sf::Event& event, const sf::Vector2f& 
 	if (!_enabled) return;
 
 	SetHovered(_shape.getGlobalBounds().contains(mousePos));
-	Hover(_hovered);
+	//Hover(_hovered);
 
 	if (event.type == sf::Event::MouseButtonPressed) {
 		sf::Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
 		if (_shape.getGlobalBounds().contains(mousePos)) {
 			if (_onClick)
+			{
+				AudioManager::GetInstance().PlaySound("button_click");
 				_onClick();
+			}		
 		}
 	}
 }
@@ -49,7 +52,15 @@ void Noir2D::GUIButton::Draw(sf::RenderWindow& window)
 
 void Noir2D::GUIButton::SetHovered(bool hovered)
 {
-	_hovered = hovered;
+	if (_hovered != hovered)
+	{
+		_hovered = hovered;
+		if (_hovered)
+		{
+			AudioManager::GetInstance().PlaySound("button_hover");
+		}
+		Hover(_hovered);
+	}	
 }
 
 void Noir2D::GUIButton::UpdateLayout()
@@ -84,5 +95,8 @@ void Noir2D::GUIButton::Hover(bool hover)
 {
 	_shape.setFillColor(hover ? sf::Color::White : sf::Color::Transparent);
 	_label.setFillColor(hover ? sf::Color::Black : sf::Color::White);
-	//_shape.setScale(hover ? sf::Vector2f(1.05, 1.05) : sf::Vector2f(1.0f, 1.0f));
+	/*if (hover)
+	{
+		AudioManager::GetInstance().PlaySound("button_hover");
+	}	*/
 }

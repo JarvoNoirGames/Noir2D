@@ -6,7 +6,8 @@ namespace Noir2D
     Engine::Engine(int width, int height, const std::string& title)
         : _window(sf::VideoMode(width, height), title),
         _assetManager(AssetManager::GetInstance()),
-        _inputManager(InputManager::GetInstance()) 
+        _inputManager(InputManager::GetInstance()) ,
+        _audioManager(AudioManager::GetInstance())
     {
         AssetManager::GetInstance().LoadTexture("splash_logo", SPLASH_SCENE_BACKGROUND_FILEPATH);
         AssetManager::GetInstance().LoadFont("default", DEFAULT_FONT);
@@ -75,6 +76,7 @@ namespace Noir2D
     void Engine::Update(float deltaTime) {
         _inputManager.Update();  // Reset input states
         if (_stateMachine.GetActiveState()) _stateMachine.GetActiveState()->Update(deltaTime);
+        _audioManager.Update();
     }
 
     void Engine::Render(float deltaTime) {

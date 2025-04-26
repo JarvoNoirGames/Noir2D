@@ -19,6 +19,15 @@
     <Filter Include="Resource Files\Images">
       <UniqueIdentifier>{e06c7924-4f00-49a9-ba1e-68a805964d11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Audio">
+      <UniqueIdentifier>{83ed9cb6-3e63-4c44-9025-24476070407d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Audio\Music">
+      <UniqueIdentifier>{f9fd7222-bd49-494f-92bd-57003599b01c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Audio\Sounds">
+      <UniqueIdentifier>{924516c4-b2cd-4b09-97a1-4fd2334cdcb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -90,6 +99,9 @@
     <ClCompile Include="GUIPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.hpp">
@@ -159,6 +171,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
