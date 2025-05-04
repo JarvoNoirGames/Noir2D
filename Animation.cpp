@@ -1,10 +1,10 @@
 #include "Animation.h"
 
-	Noir2D::Animation::Animation(const sf::Texture& texture, sf::Vector2i frameSize, int frameCount, float frameDuration)
-		: _texture(texture), _frameSize(frameSize), _frameCount(frameCount), _frameDuration(frameDuration)
+	Noir2D::Animation::Animation(const sf::Texture& texture, sf::Vector2i frameSize, const std::vector<int>& rowFrameCounts, float frameDuration)
+		: _texture(texture), _frameSize(frameSize), _rowFrameCounts(rowFrameCounts), _frameDuration(frameDuration)
 	{
 		_sprite.setTexture(_texture);
-		UpdateFrame();
+		SetRow(0);
 	}
 
 	void Noir2D::Animation::Play()
@@ -60,7 +60,7 @@
 	{
 		int columns = _texture.getSize().x / _frameSize.x;
 		int x = (_currentFrame % columns) * _frameSize.x;
-		int y = (_currentFrame / columns) * _frameSize.y;
+		int y = _row * _frameSize.y;//Row selection
 		_sprite.setTextureRect(sf::IntRect(x, y, _frameSize.x, _frameSize.y));
 	}
 
@@ -87,4 +87,16 @@
 	sf::Sprite& Noir2D::Animation::GetSprite()
 	{
 		return _sprite;
+	}
+
+	void Noir2D::Animation::SetRow(int row)
+	{
+		if (row >= 0 && row < static_cast<int>(_rowFrameCounts.size()))
+		{
+			_row = row;
+			_frameCount = _rowFrameCounts[row];
+			_currentFrame = 0;
+			_elapsedTime = 0.f;
+			UpdateFrame();
+		}
 	}
