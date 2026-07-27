@@ -46,6 +46,12 @@
     <Filter Include="Source Files\State">
       <UniqueIdentifier>{bc576dac-ec5b-4778-85e9-1141ed3688ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Animation">
+      <UniqueIdentifier>{16e11862-82f5-413e-9efb-ea037fc76874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation">
+      <UniqueIdentifier>{1b38604b-5420-48b5-9bc3-040208a04cb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -120,6 +126,9 @@
     <ClCompile Include="StateMachine.cpp">
       <Filter>Source Files\State</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -193,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="StateMachine.h">
       <Filter>Header Files\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

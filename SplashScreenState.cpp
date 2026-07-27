@@ -7,10 +7,13 @@ namespace Noir2D
 
     void SplashScreenState::Init() 
     {
-        _logoTexture = AssetManager::GetInstance().GetTexture("splash_logo");
-        _logoSprite.setTexture(_logoTexture);
+        //_logoTexture = AssetManager::GetInstance().GetTexture("splash_logo");    
+        //_logoSprite.setTexture(_logoTexture);
+        const sf::Texture& tex = AssetManager::GetInstance().GetTexture("splash_logo");
+        _logoSprite.setTexture(tex);
         sf::Vector2u windowSize = _engine.GetWindow().getSize();
-        sf::Vector2u textureSize = _logoTexture.getSize();
+        //sf::Vector2u textureSize = _logoTexture.getSize();
+        sf::Vector2u textureSize = tex.getSize();
         _logoSprite.setPosition((windowSize.x - textureSize.x) / 2, (windowSize.y - textureSize.y) / 2);
         _clock.restart();
     }
