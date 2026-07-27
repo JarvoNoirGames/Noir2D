@@ -1,43 +1,67 @@
 #include "Animation.h"
 
-	Noir2D::Animation::Animation(const sf::Texture& texture, sf::Vector2i frameSize, const std::vector<int>& rowFrameCounts, float frameDuration)
-		: _texture(texture), _frameSize(frameSize), _rowFrameCounts(rowFrameCounts), _frameDuration(frameDuration)
+namespace Noir2D
+{
+	Animation::Animation(const sf::Texture& texture, sf::Vector2i frameSize, int frameCount, float frameDuration)
+		: _texture(texture), _frameSize(frameSize), _frameCount(frameCount), _frameDuration(frameDuration)
 	{
 		_sprite.setTexture(_texture);
-		SetRow(0);
+		UpdateFrame();
 	}
 
-	void Noir2D::Animation::Play()
+	void Animation::Play()
 	{
 		_isPlaying = true;
-		_elapsedTime = 0.f;
 	}
 
-	void Noir2D::Animation::Stop()
+	void Animation::Stop()
 	{
 		_isPlaying = false;
+		_currentFrame = 0;
+		_elapsedTime = 0.f;
+		UpdateFrame();
 	}
 
-	void Noir2D::Animation::SetLooping(bool loop)
+	void Animation::SetLooping(bool loop)
 	{
 		_loop = loop;
 	}
 
-	void Noir2D::Animation::SetFrame(int index)
+	void Animation::SetFrame(int index)
 	{
-		if (index >= 0 && index < _frameCount)
-		{
-			_currentFrame = index;
-			UpdateFrame();
-		}
+		_currentFrame = index % _frameCount;
+		UpdateFrame();
 	}
 
-	void Noir2D::Animation::Update(float deltaTime)
+	void Animation::SetRow(int row)
 	{
-		if (!_isPlaying) return;
+		_row = row;
+		UpdateFrame();
+	}
+
+	void Animation::SetPosition(const sf::Vector2f& pos)
+	{
+		_sprite.setPosition(pos);
+	}
+
+	void Animation::SetScale(const sf::Vector2f& scale)
+	{
+		_sprite.setScale(scale);
+	}
+
+	void Animation::SetOrigin(const sf::Vector2f& origin)
+	{
+		_sprite.setOrigin(origin);
+	}
+
+	void Animation::Update(float deltaTime)
+	{
+		if (!_isPlaying)
+			return;
 
 		_elapsedTime += deltaTime;
-		if (_elapsedTime >= _frameDuration)
+
+		while (_elapsedTime >= _frameDuration)
 		{
 			_elapsedTime -= _frameDuration;
 			_currentFrame++;
@@ -52,51 +76,20 @@
 					_isPlaying = false;
 				}
 			}
+
 			UpdateFrame();
 		}
 	}
 
-	void Noir2D::Animation::UpdateFrame()
-	{
-		int columns = _texture.getSize().x / _frameSize.x;
-		int x = (_currentFrame % columns) * _frameSize.x;
-		int y = _row * _frameSize.y;//Row selection
-		_sprite.setTextureRect(sf::IntRect(x, y, _frameSize.x, _frameSize.y));
-	}
-
-	void Noir2D::Animation::Draw(sf::RenderWindow& window)
+	void Animation::Draw(sf::RenderWindow& window)
 	{
 		window.draw(_sprite);
 	}
 
-	void Noir2D::Animation::SetPosition(const sf::Vector2f& pos)
+	void Animation::UpdateFrame()
 	{
-		_sprite.setPosition(pos);
+		int x = _currentFrame * _frameSize.x;
+		int y = _row * _frameSize.y;
+		_sprite.setTextureRect(sf::IntRect(x, y, _frameSize.x, _frameSize.y));
 	}
-
-	sf::Vector2f Noir2D::Animation::GetPosition() const
-	{
-		return _sprite.getPosition();
-	}
-
-	void Noir2D::Animation::SetScale(const sf::Vector2f& scale)
-	{
-		_sprite.setScale(scale);
-	}
-
-	sf::Sprite& Noir2D::Animation::GetSprite()
-	{
-		return _sprite;
-	}
-
-	void Noir2D::Animation::SetRow(int row)
-	{
-		if (row >= 0 && row < static_cast<int>(_rowFrameCounts.size()))
-		{
-			_row = row;
-			_frameCount = _rowFrameCounts[row];
-			_currentFrame = 0;
-			_elapsedTime = 0.f;
-			UpdateFrame();
-		}
-	}
+}

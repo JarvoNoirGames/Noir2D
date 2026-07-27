@@ -10,6 +10,7 @@ namespace Noir2D
         _audioManager(AudioManager::GetInstance())
     {
         AssetManager::GetInstance().LoadTexture("splash_logo", SPLASH_SCENE_BACKGROUND_FILEPATH);
+        AssetManager::GetInstance().LoadTexture("anim_test", ANIMATION_TEST_IMAGE);
         AssetManager::GetInstance().LoadFont("default", DEFAULT_FONT);
         ResolutionManager::GetInstance().SetBaseResolution({ SCREEN_WIDTH, SCREEN_HEIGHT });
         ResolutionManager::GetInstance().SetWindowSize(_window.getSize());
