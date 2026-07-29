@@ -5,6 +5,7 @@
 #include "GUIButton.h"
 #include "GUIImageButton.h"
 #include "Animation.h"
+#include "GameObject.h"
 
 namespace Noir2D
 {
@@ -28,6 +29,6 @@ namespace Noir2D
         void ReturnToMainMenu();
 
         const sf::Texture* _rogueTexture = nullptr;
-        std::unique_ptr<Animation> _rogueAnim;
+        std::unique_ptr<GameObject> _rogue;
 	};
 }
