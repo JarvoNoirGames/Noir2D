@@ -52,6 +52,12 @@
     <Filter Include="Source Files\Animation">
       <UniqueIdentifier>{1b38604b-5420-48b5-9bc3-040208a04cb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameObject">
+      <UniqueIdentifier>{c61ae43b-d0ee-4ca1-a798-a3789849747e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject">
+      <UniqueIdentifier>{7cc9c047-eeb2-4455-98ef-d0c14ece7b00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
