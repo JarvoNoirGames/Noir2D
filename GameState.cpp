@@ -4,6 +4,7 @@
 #include "MainMenuState.h"
 #include "GUITextbox.h"
 #include "GUIPanel.h"
+#include "GameObject.h"
 #include <iostream>
 
 namespace Noir2D
@@ -14,38 +15,14 @@ namespace Noir2D
 	{
 		_font = AssetManager::GetInstance().GetFont("default");
 
-		// Create a panel that holds buttons
-		auto buttonPanel = std::make_shared<GUIPanel>(
-			sf::Vector2f(200,200),   //position
-			sf::Vector2f(150, 200),   //size
-			sf::Color(50, 50, 50, 150),
-			GUIPanel::LayoutDirection::Vertical,
-			15.f                      //padding
-		);
-
-		// Create buttons to go in the panel
-		std::vector<std::pair<std::string, std::function<void()>>> buttonData = {
-			{ "Back 1", [this]() { ReturnToMainMenu(); } },
-			{ "Back 2", [this]() { ReturnToMainMenu(); } },
-			{ "Back 3", [this]() { ReturnToMainMenu(); } }
-		};
-
-		for (const auto& [label, callback] : buttonData)
-		{
-			auto btn = std::make_shared<GUIButton>(
-				sf::Vector2f(0, 0),
-				sf::Vector2f(100, 50),
-				_font, label, callback
-			);
-			buttonPanel->AddElement(btn);
-		}
-		//test anim
+		//test gameobject
 		_rogueTexture = &AssetManager::GetInstance().GetTexture("anim_test");
-		sf::Vector2i frameSize(32, 32);
-		_rogueAnim = std::make_unique<Animation>(*_rogueTexture, frameSize, 10, 0.12f);
-		_rogueAnim->SetRow(0);
-		_rogueAnim->SetPosition({ 200.f, 200.f });
-		_rogueAnim->Play();
+		_rogue = std::make_unique<GameObject>(*_rogueTexture);
+		auto anim = std::make_unique<Animation>(sf::Vector2i(32, 32), 10, 0.12f);
+		anim->SetRow(0);
+		anim->Play();
+		_rogue->SetAnimation(std::move(anim));
+		_rogue->SetPosition({ 200.f, 200.f });
 	}
 
 	void GameState::HandleEvent(const sf::Event& event)
@@ -66,8 +43,22 @@ namespace Noir2D
 	void GameState::Update(float deltaTime)
 	{
 		_gui.Update(deltaTime);
-		if (_rogueAnim)
-			_rogueAnim->Update(deltaTime);
+		if (_rogue)
+		{
+			//test input for now - move to PlayerController later when implemented
+			float speed = 150.f; // pixels per second
+			sf::Vector2f delta(0.f, 0.f);
+
+			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::W)) delta.y -= 1.f;
+			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::S)) delta.y += 1.f;
+			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::A)) delta.x -= 1.f;
+			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::D)) delta.x += 1.f;
+
+			if (delta.x != 0.f || delta.y != 0.f)
+				_rogue->Move(delta * speed * deltaTime);
+
+			_rogue->Update(deltaTime);
+		}			
 	}
 
 	void GameState::Render(float deltaTime)
@@ -75,14 +66,14 @@ namespace Noir2D
 		sf::RenderWindow& window = _engine.GetWindow();
 		window.draw(_title);
 		_gui.Draw(window);
-		if (_rogueAnim)
-			_rogueAnim->Draw(window);
+		if (_rogue)
+			_rogue->Draw(window);
 	}
 
 	void GameState::Cleanup()
 	{
 		_font = sf::Font();
-		_rogueAnim.reset();
+		_rogue.reset();
 		_rogueTexture = nullptr;
 	}
 	void GameState::ReturnToMainMenu()
