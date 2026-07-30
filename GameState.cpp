@@ -4,7 +4,7 @@
 #include "MainMenuState.h"
 #include "GUITextbox.h"
 #include "GUIPanel.h"
-#include "GameObject.h"
+
 #include <iostream>
 
 namespace Noir2D
@@ -14,6 +14,9 @@ namespace Noir2D
 	void GameState::Init()
 	{
 		_font = AssetManager::GetInstance().GetFont("default");
+
+		//debug grid
+		_debugGrid = std::make_unique<DebugGrid>(2000, 2000, 100);
 
 		//test gameobject
 		_rogueTexture = &AssetManager::GetInstance().GetTexture("anim_test");
@@ -64,6 +67,8 @@ namespace Noir2D
 	void GameState::Render(float deltaTime)
 	{
 		sf::RenderWindow& window = _engine.GetWindow();
+		if (_debugGrid)
+			_debugGrid->Draw(window);
 		window.draw(_title);
 		_gui.Draw(window);
 		if (_rogue)
@@ -75,6 +80,7 @@ namespace Noir2D
 		_font = sf::Font();
 		_rogue.reset();
 		_rogueTexture = nullptr;
+		_debugGrid.reset();
 	}
 	void GameState::ReturnToMainMenu()
 	{
