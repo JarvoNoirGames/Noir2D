@@ -93,6 +93,8 @@ namespace Noir2D
 	void GameState::Cleanup()
 	{
 		_font = sf::Font();
+		if (_camera)
+			_camera->SetTarget(nullptr);   // clear the watcher before the watched object goes away
 		_camera.reset();
 		_rogue.reset();
 		_rogueTexture = nullptr;
