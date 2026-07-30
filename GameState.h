@@ -6,6 +6,8 @@
 #include "GUIImageButton.h"
 #include "Animation.h"
 #include "GameObject.h"
+#include "DebugGrid.h"
+#include "Camera.h"
 
 namespace Noir2D
 {
@@ -30,5 +32,7 @@ namespace Noir2D
 
         const sf::Texture* _rogueTexture = nullptr;
         std::unique_ptr<GameObject> _rogue;
+        std::unique_ptr<DebugGrid> _debugGrid;
+        std::unique_ptr<Camera> _camera;
 	};
 }

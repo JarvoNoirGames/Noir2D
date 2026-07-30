@@ -4,7 +4,7 @@
 #include "MainMenuState.h"
 #include "GUITextbox.h"
 #include "GUIPanel.h"
-#include "GameObject.h"
+
 #include <iostream>
 
 namespace Noir2D
@@ -15,6 +15,9 @@ namespace Noir2D
 	{
 		_font = AssetManager::GetInstance().GetFont("default");
 
+		//debug grid
+		_debugGrid = std::make_unique<DebugGrid>(2000, 2000, 100);
+
 		//test gameobject
 		_rogueTexture = &AssetManager::GetInstance().GetTexture("anim_test");
 		_rogue = std::make_unique<GameObject>(*_rogueTexture);
@@ -23,6 +26,12 @@ namespace Noir2D
 		anim->Play();
 		_rogue->SetAnimation(std::move(anim));
 		_rogue->SetPosition({ 200.f, 200.f });
+
+		//camera
+		sf::Vector2u windowSize = _engine.GetWindow().getSize();
+		_camera = std::make_unique<Camera>(sf::Vector2f((float)windowSize.x, (float)windowSize.y));
+		_camera->SetWorldBounds(2000.f, 2000.f);
+		_camera->SetTarget(_rogue.get());
 	}
 
 	void GameState::HandleEvent(const sf::Event& event)
@@ -58,23 +67,38 @@ namespace Noir2D
 				_rogue->Move(delta * speed * deltaTime);
 
 			_rogue->Update(deltaTime);
-		}			
+		}
+
+		if (_camera)
+			_camera->Update(deltaTime);
 	}
 
 	void GameState::Render(float deltaTime)
 	{
 		sf::RenderWindow& window = _engine.GetWindow();
-		window.draw(_title);
-		_gui.Draw(window);
+
+		if (_camera)
+			window.setView(_camera->GetView());   // world-space view starts here
+
+		if (_debugGrid)
+			_debugGrid->Draw(window);
 		if (_rogue)
 			_rogue->Draw(window);
+
+		window.setView(window.getDefaultView()); // back to screen-space for UI
+		window.draw(_title);
+		_gui.Draw(window);
 	}
 
 	void GameState::Cleanup()
 	{
 		_font = sf::Font();
+		if (_camera)
+			_camera->SetTarget(nullptr);   // clear the watcher before the watched object goes away
+		_camera.reset();
 		_rogue.reset();
 		_rogueTexture = nullptr;
+		_debugGrid.reset();
 	}
 	void GameState::ReturnToMainMenu()
 	{
