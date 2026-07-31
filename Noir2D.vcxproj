@@ -161,6 +161,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="PauseState.cpp" />
+    <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="SplashScreenState.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="PauseState.h" />
+    <ClInclude Include="PhysicsWorld.h" />
     <ClInclude Include="ResolutionManager.h" />
     <ClInclude Include="SettingsState.h" />
     <ClInclude Include="SplashScreenState.h" />

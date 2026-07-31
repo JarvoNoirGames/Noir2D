@@ -76,6 +76,12 @@
     <Filter Include="Source Files\Collision">
       <UniqueIdentifier>{c2311571-12f1-4fd4-8088-81f8b4876d90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{883ce130-0ffe-4c65-96b8-df21cb3984d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{ae1f741c-a52b-4a38-a24a-7ae73cf81dd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -165,6 +171,9 @@
     <ClCompile Include="Collision.cpp">
       <Filter>Source Files\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsWorld.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -253,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsWorld.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
