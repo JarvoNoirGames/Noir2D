@@ -65,6 +65,26 @@ namespace Noir2D
 		return _isStatic;
 	}
 
+	void GameObject::SetGravityScale(float scale)
+	{
+		_gravityScale = scale;
+	}
+
+	float GameObject::GetGravityScale() const
+	{
+		return _gravityScale;
+	}
+
+	void GameObject::SetFriction(float friction)
+	{
+		_friction = friction;
+	}
+
+	float GameObject::GetFriction() const
+	{
+		return _friction;
+	}
+
 	void GameObject::Update(float deltaTime)
 	{
 		if (_animation)
