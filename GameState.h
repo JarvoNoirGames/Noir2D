@@ -8,6 +8,7 @@
 #include "GameObject.h"
 #include "DebugGrid.h"
 #include "Camera.h"
+#include "PhysicsWorld.h"
 
 namespace Noir2D
 {
@@ -34,5 +35,7 @@ namespace Noir2D
         std::unique_ptr<GameObject> _rogue;
         std::unique_ptr<DebugGrid> _debugGrid;
         std::unique_ptr<Camera> _camera;
+        std::unique_ptr<PhysicsWorld> _physicsWorld;
+        std::unique_ptr<GameObject> _wall;
 	};
 }

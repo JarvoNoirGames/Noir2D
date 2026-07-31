@@ -141,6 +141,7 @@
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DebugGrid.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="PauseState.cpp" />
+    <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="SplashScreenState.cpp" />
@@ -170,6 +172,7 @@
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="DebugGrid.h" />
     <ClInclude Include="DEFINITIONS.h" />
     <ClInclude Include="Engine.h" />
@@ -189,6 +192,7 @@
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="PauseState.h" />
+    <ClInclude Include="PhysicsWorld.h" />
     <ClInclude Include="ResolutionManager.h" />
     <ClInclude Include="SettingsState.h" />
     <ClInclude Include="SplashScreenState.h" />
