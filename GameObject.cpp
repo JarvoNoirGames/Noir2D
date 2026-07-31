@@ -45,6 +45,26 @@ namespace Noir2D
 		return _sprite.getGlobalBounds();
 	}
 
+	void GameObject::SetVelocity(const sf::Vector2f& velocity)
+	{
+		_velocity = velocity;
+	}
+
+	sf::Vector2f GameObject::GetVelocity() const
+	{
+		return _velocity;
+	}
+
+	void GameObject::SetStatic(bool isStatic)
+	{
+		_isStatic = isStatic;
+	}
+
+	bool GameObject::IsStatic() const
+	{
+		return _isStatic;
+	}
+
 	void GameObject::Update(float deltaTime)
 	{
 		if (_animation)
