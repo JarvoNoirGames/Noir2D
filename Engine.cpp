@@ -3,8 +3,10 @@
 #include <iostream>
 namespace Noir2D
 {
-    Engine::Engine(int width, int height, const std::string& title)
-        : _window(sf::VideoMode(width, height), title),
+    Engine::Engine(int width, int height, const std::string& title, bool fullscreen)
+        : _window(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(width, height),
+            title,
+            fullscreen ? sf::Style::Fullscreen : sf::Style::Default),
         _assetManager(AssetManager::GetInstance()),
         _inputManager(InputManager::GetInstance()) ,
         _audioManager(AudioManager::GetInstance())
