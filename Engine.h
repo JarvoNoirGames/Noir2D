@@ -11,7 +11,7 @@ namespace Noir2D
 {
 	class Engine {
 	public:
-		Engine(int width, int height, const std::string& title);
+		Engine(int width, int height, const std::string& title,bool fullscreen = false);
 		void Run();
 		sf::RenderWindow& GetWindow();
 		StateMachine& GetStateMachine();

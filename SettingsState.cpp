@@ -1,6 +1,7 @@
 #include "SettingsState.h"
 #include "MainMenuState.h"
 #include "Engine.h"
+#include "SaveManager.h"
 
 namespace Noir2D
 {
@@ -8,6 +9,16 @@ namespace Noir2D
 
     void SettingsState::Init() {
         _font = AssetManager::GetInstance().GetFont("default");
+
+        //load config
+        SaveManager::GetInstance().Load(CONFIG_FILE_PATH);
+        _fullscreen = SaveManager::GetInstance().Get<bool>("fullscreen", false);
+
+        if (_fullscreen)
+        {
+            _engine.GetWindow().create(sf::VideoMode(1920, 1080), "NOIR2D", sf::Style::Fullscreen);
+            ResolutionManager::GetInstance().SetWindowSize(_engine.GetWindow().getSize());
+        }
 
         _title.setFont(_font);
         _title.setString("Settings");
@@ -64,7 +75,7 @@ namespace Noir2D
         _fullscreen = !_fullscreen;
         if (_fullscreen) 
         {
-            _engine.GetWindow().create(sf::VideoMode(1920, 1080), "NOIR2D", sf::Style::Fullscreen);
+            _engine.GetWindow().create(sf::VideoMode::getDesktopMode(), "NOIR2D", sf::Style::Fullscreen);
             ResolutionManager::GetInstance().SetWindowSize(_engine.GetWindow().getSize());
             _gui.UpdateLayout();
         }
@@ -74,6 +85,8 @@ namespace Noir2D
             ResolutionManager::GetInstance().SetWindowSize(_engine.GetWindow().getSize());
             _gui.UpdateLayout();
         }
+        SaveManager::GetInstance().Set("fullscreen", _fullscreen);
+        SaveManager::GetInstance().Save(CONFIG_FILE_PATH);
     }
     void SettingsState::ReturnToMainMenu()
     {
