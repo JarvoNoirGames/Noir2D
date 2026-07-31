@@ -75,7 +75,7 @@ namespace Noir2D
         _fullscreen = !_fullscreen;
         if (_fullscreen) 
         {
-            _engine.GetWindow().create(sf::VideoMode(1920, 1080), "NOIR2D", sf::Style::Fullscreen);
+            _engine.GetWindow().create(sf::VideoMode::getDesktopMode(), "NOIR2D", sf::Style::Fullscreen);
             ResolutionManager::GetInstance().SetWindowSize(_engine.GetWindow().getSize());
             _gui.UpdateLayout();
         }
