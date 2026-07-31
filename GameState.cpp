@@ -36,11 +36,15 @@ namespace Noir2D
 		//physics test
 		_wall = std::make_unique<GameObject>(*_rogueTexture);
 		_wall->SetStatic(true);
-		_wall->SetPosition({ 500.f, 300.f });
+		_wall->SetPosition({ 200.f, 600.f });
 
 		_physicsWorld = std::make_unique<PhysicsWorld>();
 		_physicsWorld->AddDynamic(_rogue.get());
 		_physicsWorld->AddStatic(_wall.get());
+
+		//gravity test
+		_physicsWorld->SetGravity(sf::Vector2f(0.f,500.f));
+		_rogue->SetGravityScale(1.f);
 	}
 
 	void GameState::HandleEvent(const sf::Event& event)
@@ -66,9 +70,10 @@ namespace Noir2D
 			//test input for now - move to PlayerController later when implemented
 			float speed = 150.f; // pixels per second
 			sf::Vector2f delta(0.f, 0.f);
-			sf::Vector2f velocity(0.f, 0.f);
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::W)) velocity.y -= speed;
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::S)) velocity.y += speed;
+			sf::Vector2f velocity = _rogue->GetVelocity();
+			velocity.x = 0.f;
+			//if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::W)) velocity.y -= speed;
+			//if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::S)) velocity.y += speed;
 			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::A)) velocity.x -= speed;
 			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::D)) velocity.x += speed;
 
