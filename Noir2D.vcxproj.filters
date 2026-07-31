@@ -70,6 +70,12 @@
     <Filter Include="Source Files\Camera">
       <UniqueIdentifier>{6a0afe5f-58f9-4907-b582-5919970fbf38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Collision">
+      <UniqueIdentifier>{86c08707-b8b9-4043-8f9e-6bfcc4e8bc60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collision">
+      <UniqueIdentifier>{c2311571-12f1-4fd4-8088-81f8b4876d90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -156,6 +162,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -241,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Header Files\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
