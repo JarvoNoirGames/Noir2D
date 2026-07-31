@@ -32,6 +32,15 @@ namespace Noir2D
 		_camera = std::make_unique<Camera>(sf::Vector2f((float)windowSize.x, (float)windowSize.y));
 		_camera->SetWorldBounds(2000.f, 2000.f);
 		_camera->SetTarget(_rogue.get());
+
+		//physics test
+		_wall = std::make_unique<GameObject>(*_rogueTexture);
+		_wall->SetStatic(true);
+		_wall->SetPosition({ 500.f, 300.f });
+
+		_physicsWorld = std::make_unique<PhysicsWorld>();
+		_physicsWorld->AddDynamic(_rogue.get());
+		_physicsWorld->AddStatic(_wall.get());
 	}
 
 	void GameState::HandleEvent(const sf::Event& event)
@@ -57,17 +66,19 @@ namespace Noir2D
 			//test input for now - move to PlayerController later when implemented
 			float speed = 150.f; // pixels per second
 			sf::Vector2f delta(0.f, 0.f);
+			sf::Vector2f velocity(0.f, 0.f);
+			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::W)) velocity.y -= speed;
+			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::S)) velocity.y += speed;
+			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::A)) velocity.x -= speed;
+			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::D)) velocity.x += speed;
 
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::W)) delta.y -= 1.f;
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::S)) delta.y += 1.f;
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::A)) delta.x -= 1.f;
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::D)) delta.x += 1.f;
-
-			if (delta.x != 0.f || delta.y != 0.f)
-				_rogue->Move(delta * speed * deltaTime);
+			_rogue->SetVelocity(velocity);
 
 			_rogue->Update(deltaTime);
 		}
+
+		if (_physicsWorld)
+			_physicsWorld->Step(deltaTime);
 
 		if (_camera)
 			_camera->Update(deltaTime);
@@ -84,6 +95,8 @@ namespace Noir2D
 			_debugGrid->Draw(window);
 		if (_rogue)
 			_rogue->Draw(window);
+		if (_wall)
+			_wall->Draw(window);
 
 		window.setView(window.getDefaultView()); // back to screen-space for UI
 		window.draw(_title);
@@ -99,6 +112,8 @@ namespace Noir2D
 		_rogue.reset();
 		_rogueTexture = nullptr;
 		_debugGrid.reset();
+		_physicsWorld.reset();
+		_wall.reset();
 	}
 	void GameState::ReturnToMainMenu()
 	{

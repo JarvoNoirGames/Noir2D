@@ -18,11 +18,13 @@ void Noir2D::PhysicsWorld::Step(float deltaTime)
 	{
 		sf::Vector2f delta = dynamicObj->GetVelocity() * deltaTime;
 		sf::FloatRect bounds = dynamicObj->GetBounds();
+
 		//check x axis first
 		sf::FloatRect nextX = bounds;
 		nextX.left += delta.x;
 		bool blockedX = std::any_of(_staticObjects.begin(), _staticObjects.end(),
 			[&](GameObject* s) { return Collision::Intersects(nextX, s->GetBounds()); });
+
 		//check y axis independtly
 		sf::FloatRect nextY = bounds;
 		nextY.top += delta.y;
