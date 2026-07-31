@@ -163,6 +163,7 @@
     <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
+    <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="SplashScreenState.cpp" />
     <ClCompile Include="StateMachine.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="PauseState.h" />
     <ClInclude Include="PhysicsWorld.h" />
     <ClInclude Include="ResolutionManager.h" />
+    <ClInclude Include="SaveManager.h" />
     <ClInclude Include="SettingsState.h" />
     <ClInclude Include="SplashScreenState.h" />
     <ClInclude Include="State.hpp" />

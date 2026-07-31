@@ -26,3 +26,5 @@
 //Fonts
 #define DEFAULT_FONT "../../Resources/fonts/arial.ttf"
 #define DEFAULT_FONT_SIZE 24.f
+
+#define CONFIG_FILE_PATH "config.json"
