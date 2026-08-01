@@ -107,7 +107,6 @@ namespace Noir2D
 
     bool InputManager::WasGamepadButtonReleased(unsigned int joystickId, unsigned int button) const
     {
-        std::cout << "Released!";
         auto it = gamepadReleasedStates.find(MakeGamepadKey(joystickId, button));
         return it != gamepadReleasedStates.end() && it->second;
     }
