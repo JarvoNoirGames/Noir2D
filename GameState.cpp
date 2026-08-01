@@ -4,7 +4,6 @@
 #include "MainMenuState.h"
 #include "GUITextbox.h"
 #include "GUIPanel.h"
-
 #include <iostream>
 
 namespace Noir2D
@@ -41,6 +40,14 @@ namespace Noir2D
 		_physicsWorld = std::make_unique<PhysicsWorld>();
 		_physicsWorld->AddDynamic(_rogue.get());
 		_physicsWorld->AddStatic(_wall.get());
+
+		//bind input
+		InputManager::GetInstance().BindAxisKeys("MoveX", sf::Keyboard::A, sf::Keyboard::D);
+		InputManager::GetInstance().BindAxisKeys("MoveY", sf::Keyboard::W, sf::Keyboard::S);
+		InputManager::GetInstance().BindAxisGamepad("MoveX", sf::Joystick::X, 0);
+		InputManager::GetInstance().BindAxisGamepad("MoveY", sf::Joystick::Y, 0);
+		InputManager::GetInstance().BindActionKey("TestAction", sf::Keyboard::Space);
+		InputManager::GetInstance().BindActionGamepadButton("TestAction", 0, 0);
 	}
 
 	void GameState::HandleEvent(const sf::Event& event)
@@ -66,14 +73,9 @@ namespace Noir2D
 			//test input for now - move to PlayerController later when implemented
 			float speed = 150.f; // pixels per second
 			sf::Vector2f velocity(0.f,0.f);
-
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::W)) velocity.y -= speed;
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::S)) velocity.y += speed;
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::A)) velocity.x -= speed;
-			if (InputManager::GetInstance().IsKeyPressed(sf::Keyboard::D)) velocity.x += speed;
-
+			velocity.x = InputManager::GetInstance().GetActionAxis("MoveX") * speed;
+			velocity.y = InputManager::GetInstance().GetActionAxis("MoveY") * speed;
 			_rogue->SetVelocity(velocity);
-
 			_rogue->Update(deltaTime);
 		}
 

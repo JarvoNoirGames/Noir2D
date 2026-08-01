@@ -8,7 +8,7 @@ namespace Noir2D
         return instance;
     }
 
-    // --- Keyboard Handling ---
+    // Keyboard Handling
     bool InputManager::IsKeyPressed(sf::Keyboard::Key key) const {
         auto it = keyStates.find(key);
         return it != keyStates.end() && it->second;
@@ -19,7 +19,7 @@ namespace Noir2D
         return it != keyReleasedStates.end() && it->second;
     }
 
-    // --- Mouse Handling ---
+    // Mouse Handling
     bool InputManager::IsMouseButtonPressed(sf::Mouse::Button button) const {
         auto it = mouseStates.find(button);
         return it != mouseStates.end() && it->second;
@@ -34,7 +34,7 @@ namespace Noir2D
         return sf::Mouse::getPosition(window);
     }
 
-    // --- Event Processing ---
+    // Event Processing
     void InputManager::ProcessEvent(const sf::Event& event) {
         if (event.type == sf::Event::KeyPressed) {
             keyStates[event.key.code] = true;
@@ -63,20 +63,129 @@ namespace Noir2D
             mouseStates[event.mouseButton.button] = false;
             mouseReleasedStates[event.mouseButton.button] = true;
         }
+
+        if (event.type == sf::Event::JoystickButtonPressed) {
+            unsigned int k = MakeGamepadKey(event.joystickButton.joystickId, event.joystickButton.button);
+            gamepadStates[k] = true;
+            gamepadReleasedStates[k] = false;
+        }
+
+        if (event.type == sf::Event::JoystickButtonReleased) {
+            unsigned int k = MakeGamepadKey(event.joystickButton.joystickId, event.joystickButton.button);
+            gamepadStates[k] = false;
+            gamepadReleasedStates[k] = true;
+        }
     }
 
-    // --- Frame Update (Reset Released States) ---
+    // Frame Update (Reset Released States)
     void InputManager::Update() {
+        sf::Joystick::update();
         keyReleasedStates.clear();
         mouseReleasedStates.clear();
+        gamepadReleasedStates.clear();
     }
 
-    // --- Key Binding ---
+    // Key Binding
     void InputManager::BindKeyPress(sf::Keyboard::Key key, std::function<void()> callback) {
         keyPressCallbacks[key] = std::move(callback);
     }
 
     void InputManager::BindKeyRelease(sf::Keyboard::Key key, std::function<void()> callback) {
         keyReleaseCallbacks[key] = std::move(callback);
+    }
+
+    unsigned int InputManager::MakeGamepadKey(unsigned int joystickId, unsigned int button)
+    {
+        return joystickId * 1000 + button;
+    }
+
+    bool InputManager::IsGamepadButtonPressed(unsigned int joystickId, unsigned int button) const
+    {
+        auto it = gamepadStates.find(MakeGamepadKey(joystickId, button));
+        return it != gamepadStates.end() && it->second;
+    }
+
+    bool InputManager::WasGamepadButtonReleased(unsigned int joystickId, unsigned int button) const
+    {
+        std::cout << "Released!";
+        auto it = gamepadReleasedStates.find(MakeGamepadKey(joystickId, button));
+        return it != gamepadReleasedStates.end() && it->second;
+    }
+
+    float InputManager::GetGamepadAxis(unsigned int joystickId, sf::Joystick::Axis axis) const
+    {
+        if (!sf::Joystick::isConnected(joystickId))
+            return 0.f;
+
+        float raw = sf::Joystick::getAxisPosition(joystickId, axis);
+        if (std::abs(raw) < DEADZONE)
+            return 0.f;
+
+        return raw; // -100..100
+    }
+
+    void InputManager::BindActionKey(const std::string& action, sf::Keyboard::Key key)
+    {
+        actionBindings[action].keys.push_back(key);
+    }
+
+    void InputManager::BindActionGamepadButton(const std::string& action, unsigned int button, unsigned int joystickId)
+    {
+        actionBindings[action].gamepadButtons.push_back({ joystickId, button });
+    }
+
+    bool InputManager::IsActionPressed(const std::string& action) const
+    {
+        auto it = actionBindings.find(action);
+        if (it == actionBindings.end())
+            return false; // unbound action — fails safe, doesn't crash
+
+        for (auto key : it->second.keys)
+            if (IsKeyPressed(key)) return true;
+
+        for (auto& pair : it->second.gamepadButtons)
+            if (IsGamepadButtonPressed(pair.first, pair.second)) return true;
+
+        return false;
+    }
+
+    void InputManager::BindAxisKeys(const std::string& axisName, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
+    {
+        auto& binding = axisBindings[axisName];
+        binding.hasKeyboard = true;
+        binding.negativeKey = negativeKey;
+        binding.positiveKey = positiveKey;
+    }
+
+    void InputManager::BindAxisGamepad(const std::string& axisName, sf::Joystick::Axis axis, unsigned int joystickId)
+    {
+        auto& binding = axisBindings[axisName];
+        binding.hasGamepad = true;
+        binding.joystickId = joystickId;
+        binding.gamepadAxis = axis;
+    }
+
+    float InputManager::GetActionAxis(const std::string& axisName) const
+    {
+        auto it = axisBindings.find(axisName);
+        if (it == axisBindings.end())
+            return 0.f;
+
+        float value = 0.f;
+
+        if (it->second.hasKeyboard)
+        {
+            if (IsKeyPressed(it->second.negativeKey)) value -= 1.f;
+            if (IsKeyPressed(it->second.positiveKey)) value += 1.f;
+        }
+
+        if (it->second.hasGamepad)
+        {
+            float gamepadValue = GetGamepadAxis(it->second.joystickId, it->second.gamepadAxis) / 100.f;
+            if (std::abs(gamepadValue) > std::abs(value))
+                value = gamepadValue; // whichever device is being pushed harder wins
+        }
+
+        return value;
     }
 }
