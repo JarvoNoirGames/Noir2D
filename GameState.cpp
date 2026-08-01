@@ -4,7 +4,6 @@
 #include "MainMenuState.h"
 #include "GUITextbox.h"
 #include "GUIPanel.h"
-
 #include <iostream>
 
 namespace Noir2D
@@ -47,6 +46,8 @@ namespace Noir2D
 		InputManager::GetInstance().BindAxisKeys("MoveY", sf::Keyboard::W, sf::Keyboard::S);
 		InputManager::GetInstance().BindAxisGamepad("MoveX", sf::Joystick::X, 0);
 		InputManager::GetInstance().BindAxisGamepad("MoveY", sf::Joystick::Y, 0);
+		InputManager::GetInstance().BindActionKey("TestAction", sf::Keyboard::Space);
+		InputManager::GetInstance().BindActionGamepadButton("TestAction", 0, 0);
 	}
 
 	void GameState::HandleEvent(const sf::Event& event)

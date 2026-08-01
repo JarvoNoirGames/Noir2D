@@ -63,6 +63,18 @@ namespace Noir2D
             mouseStates[event.mouseButton.button] = false;
             mouseReleasedStates[event.mouseButton.button] = true;
         }
+
+        if (event.type == sf::Event::JoystickButtonPressed) {
+            unsigned int k = MakeGamepadKey(event.joystickButton.joystickId, event.joystickButton.button);
+            gamepadStates[k] = true;
+            gamepadReleasedStates[k] = false;
+        }
+
+        if (event.type == sf::Event::JoystickButtonReleased) {
+            unsigned int k = MakeGamepadKey(event.joystickButton.joystickId, event.joystickButton.button);
+            gamepadStates[k] = false;
+            gamepadReleasedStates[k] = true;
+        }
     }
 
     // Frame Update (Reset Released States)
@@ -70,6 +82,7 @@ namespace Noir2D
         sf::Joystick::update();
         keyReleasedStates.clear();
         mouseReleasedStates.clear();
+        gamepadReleasedStates.clear();
     }
 
     // Key Binding
@@ -81,9 +94,22 @@ namespace Noir2D
         keyReleaseCallbacks[key] = std::move(callback);
     }
 
+    unsigned int InputManager::MakeGamepadKey(unsigned int joystickId, unsigned int button)
+    {
+        return joystickId * 1000 + button;
+    }
+
     bool InputManager::IsGamepadButtonPressed(unsigned int joystickId, unsigned int button) const
     {
-        return sf::Joystick::isConnected(joystickId) && sf::Joystick::isButtonPressed(joystickId, button);
+        auto it = gamepadStates.find(MakeGamepadKey(joystickId, button));
+        return it != gamepadStates.end() && it->second;
+    }
+
+    bool InputManager::WasGamepadButtonReleased(unsigned int joystickId, unsigned int button) const
+    {
+        std::cout << "Released!";
+        auto it = gamepadReleasedStates.find(MakeGamepadKey(joystickId, button));
+        return it != gamepadReleasedStates.end() && it->second;
     }
 
     float InputManager::GetGamepadAxis(unsigned int joystickId, sf::Joystick::Axis axis) const
