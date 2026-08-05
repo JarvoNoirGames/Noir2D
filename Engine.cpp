@@ -12,7 +12,6 @@ namespace Noir2D
         _audioManager(AudioManager::GetInstance())
     {
         AssetManager::GetInstance().LoadTexture("splash_logo", SPLASH_SCENE_BACKGROUND_FILEPATH);
-        AssetManager::GetInstance().LoadTexture("anim_test", ANIMATION_TEST_IMAGE);
         AssetManager::GetInstance().LoadFont("default", DEFAULT_FONT);
         ResolutionManager::GetInstance().SetBaseResolution({ SCREEN_WIDTH, SCREEN_HEIGHT });
         ResolutionManager::GetInstance().SetWindowSize(_window.getSize());
@@ -53,23 +52,25 @@ namespace Noir2D
     }
 
     void Engine::ProcessEvents() {
+        _inputManager.Update(); // reset last frame's "released" flags first
+
         sf::Event event;
         while (_window.pollEvent(event)) {
-            if ((event.type == sf::Event::Closed) || (_quitRequested))
-            {
+            if (event.type == sf::Event::Closed)
                 _window.close();
-            }
+
             _inputManager.ProcessEvent(event);
+
+            if (!_stateMachine.IsEmpty())
+                _stateMachine.GetActiveState()->HandleEvent(event);
         }
-        // Forward input handling to the current state
-        if (!_stateMachine.IsEmpty()) {
+
+        if (_quitRequested)
+            _window.close();
+
+        if (!_stateMachine.IsEmpty())
             _stateMachine.GetActiveState()->HandleInput();
-        }
-        // Forward events to the current state
-        if (!_stateMachine.IsEmpty()) {
-            _stateMachine.GetActiveState()->HandleEvent(event);
-        }
-        // Process pending actions
+
         if (_pendingState) {
             _stateMachine.ChangeState(std::move(_pendingState));
             _pendingState.reset();
@@ -77,7 +78,6 @@ namespace Noir2D
     }
 
     void Engine::Update(float deltaTime) {
-        _inputManager.Update();  // Reset input states
         if (_stateMachine.GetActiveState()) _stateMachine.GetActiveState()->Update(deltaTime);
         _audioManager.Update();
     }
@@ -86,21 +86,5 @@ namespace Noir2D
         _window.clear(sf::Color::Black);
         if (_stateMachine.GetActiveState()) _stateMachine.GetActiveState()->Render(deltaTime);
         _window.display();
-    }
-
-    void Engine::RequestStatePush(std::unique_ptr<State> newState) {
-        //if (!_stateStack.empty()) {
-        //    _stateStack.top()->Pause(); // Optional: Pause current state
-        //}
-        _stateStack.push(std::move(newState));
-    }
-
-    void Engine::RequestStatePop() {
-        if (!_stateStack.empty()) {
-            _stateStack.pop(); // Remove top state
-        }
-        //if (!_stateStack.empty()) {
-        //    _stateStack.top()->Resume(); // Optional: Resume previous state
-        //}
     }
 }
