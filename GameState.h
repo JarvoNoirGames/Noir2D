@@ -1,41 +1,34 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+#include <memory>
 #include "State.hpp"
-#include "Engine.h"
 #include "GUI.h"
-#include "GUIButton.h"
-#include "GUIImageButton.h"
-#include "Animation.h"
-#include "GameObject.h"
-#include "DebugGrid.h"
 #include "Camera.h"
 #include "PhysicsWorld.h"
 
 namespace Noir2D
 {
+	class Engine;
+
 	class GameState : public State
 	{
-    public:
-        GameState(Engine& engine);
-        void Init() override;
-        void HandleEvent(const sf::Event& event) override;
-        void HandleInput() override;
-        void Update(float dt) override;
-        void Render(float dt) override;
-        void Cleanup() override;
+	public:
+		GameState(Engine& engine);
 
-    private:
-        Engine& _engine;
-        sf::Text _title;
-        sf::Font _font;
-        GUI _gui;
+		void Init() override;
+		void HandleEvent(const sf::Event& event) override;
+		void HandleInput() override;
+		void Update(float deltaTime) override;
+		void Render(float deltaTime) override;
+		void Cleanup() override;
 
-        void ReturnToMainMenu();
+	private:
+		Engine& _engine;
 
-        const sf::Texture* _rogueTexture = nullptr;
-        std::unique_ptr<GameObject> _rogue;
-        std::unique_ptr<DebugGrid> _debugGrid;
-        std::unique_ptr<Camera> _camera;
-        std::unique_ptr<PhysicsWorld> _physicsWorld;
-        std::unique_ptr<GameObject> _wall;
+		GUI _gui;
+		std::unique_ptr<Camera> _camera;
+		std::unique_ptr<PhysicsWorld> _physicsWorld;
+
+		// Platform/player GameObjects get added here as the platformer is built
 	};
 }
