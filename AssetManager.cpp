@@ -1,4 +1,5 @@
 #include "AssetManager.h"
+#include "PathUtils.h"
 #include <iostream>
 
 namespace Noir2D
@@ -9,25 +10,28 @@ namespace Noir2D
 	}
 
     void AssetManager::LoadTexture(const std::string& name, const std::string& filename) {
-        if (_textures.find(name) != _textures.end()) return;  // Prevent reloading
-        if (!_textures[name].loadFromFile(filename)) {
-            std::cerr << "Error loading texture: " << filename << std::endl;
+        if (_textures.find(name) != _textures.end()) return;
+        std::string resolvedPath = PathUtils::ResolveAssetPath(filename);
+        if (!_textures[name].loadFromFile(resolvedPath)) {
+            std::cerr << "Error loading texture: " << resolvedPath << std::endl;
             _textures.erase(name);
         }
     }
 
     void AssetManager::LoadFont(const std::string& name, const std::string& filename) {
         if (_fonts.find(name) != _fonts.end()) return;
-        if (!_fonts[name].loadFromFile(filename)) {
-            std::cerr << "Error loading font: " << filename << std::endl;
+        std::string resolvedPath = PathUtils::ResolveAssetPath(filename);
+        if (!_fonts[name].loadFromFile(resolvedPath)) {
+            std::cerr << "Error loading font: " << resolvedPath << std::endl;
             _fonts.erase(name);
         }
     }
 
     void AssetManager::LoadSound(const std::string& name, const std::string& filename) {
         if (_sounds.find(name) != _sounds.end()) return;
-        if (!_sounds[name].loadFromFile(filename)) {
-            std::cerr << "Error loading sound: " << filename << std::endl;
+        std::string resolvedPath = PathUtils::ResolveAssetPath(filename);
+        if (!_sounds[name].loadFromFile(resolvedPath)) {
+            std::cerr << "Error loading sound: " << resolvedPath << std::endl;
             _sounds.erase(name);
         }
     }

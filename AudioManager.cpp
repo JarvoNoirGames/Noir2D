@@ -1,4 +1,6 @@
 #include "AudioManager.h"
+#include "PathUtils.h"
+#include <iostream>
 
 void Noir2D::AudioManager::Update()
 {
@@ -13,11 +15,16 @@ void Noir2D::AudioManager::Update()
 void Noir2D::AudioManager::PlayMusic(const std::string& filename, bool loop)
 {
 	_music.stop();
-	if (_music.openFromFile(filename))
+	std::string resolvedPath = PathUtils::ResolveAssetPath(filename);
+	if (_music.openFromFile(resolvedPath))
 	{
 		_music.setLoop(loop);
 		_music.setVolume(_musicVolume);
 		_music.play();
+	}
+	else
+	{
+		std::cerr << "Error loading music: " << resolvedPath << std::endl;
 	}
 }
 
@@ -52,9 +59,14 @@ void Noir2D::AudioManager::PlaySound(const std::string& name)
 void Noir2D::AudioManager::LoadSound(const std::string& name, const std::string& filepath)
 {
 	sf::SoundBuffer buffer;
-	if (buffer.loadFromFile(filepath))
+	std::string resolvedPath = PathUtils::ResolveAssetPath(filepath);
+	if (buffer.loadFromFile(resolvedPath))
 	{
 		_soundBuffers[name] = buffer;
+	}
+	else
+	{
+		std::cerr << "Error loading sound: " << resolvedPath << std::endl;
 	}
 }
 
