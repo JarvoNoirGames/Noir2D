@@ -166,6 +166,7 @@
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="PathUtils.cpp" />
     <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
